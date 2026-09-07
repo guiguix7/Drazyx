@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+:root {
+  --bg-base: #08070c;
+  --bg-elevated: rgba(255, 255, 255, 0.035);
+  --border-hair: rgba(255, 255, 255, 0.09);
+  --violet: #7c5cff;
+  --violet-soft: #a78bfa;
+  --crimson: #9c2b46;
+  --text-hi: #eeecf7;
+  --text-mid: #b5b2c9;
+  --text-low: #706d85;
+  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+
+.drazyx-root {
+  background: var(--bg-base);
+  color: var(--text-hi);
+  font-family: var(--font-body);
+  scroll-behavior: smooth;
+}
+
+.drazyx-root ::selection {
+  background: var(--violet);
+  color: #08070c;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.glass {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-hair);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.glow-orb {
+  animation: pulseGlow 7s ease-in-out infinite;
+}
+
+.nav-link {
+  position: relative;
+  color: var(--text-mid);
+  transition: color 0.25s ease;
+}
+
+.nav-link:hover {
+  color: var(--text-hi);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 1px;
+  background: var(--violet-soft);
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--violet), #5b3fd6);
+  color: #f5f3ff;
+  box-shadow: 0 0 0 rgba(124, 92, 255, 0);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 28px rgba(124, 92, 255, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-hair);
+  color: var(--text-hi);
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.btn-secondary:hover {
+  border-color: rgba(167, 139, 250, 0.5);
+  background: rgba(124, 92, 255, 0.08);
+}
+
+.btn-ghost {
+  color: var(--text-mid);
+  border: 1px solid transparent;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.btn-ghost:hover {
+  color: var(--text-hi);
+  border-color: var(--border-hair);
+}
+
+.track-card {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease;
+}
+
+.track-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(167, 139, 250, 0.35);
+}
+
+.beat-row {
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.beat-row:hover {
+  background: rgba(255, 255, 255, 0.025);
+  border-color: rgba(167, 139, 250, 0.25);
+}
+
+.price-chip {
+  border: 1px solid var(--border-hair);
+  color: var(--text-mid);
+  transition: all 0.2s ease;
+}
+
+.price-chip:hover {
+  border-color: var(--violet-soft);
+  color: var(--text-hi);
+  background: rgba(124, 92, 255, 0.1);
+}
+
+.field {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-hair);
+  color: var(--text-hi);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.field::placeholder {
+  color: var(--text-low);
+}
+
+.field:focus {
+  outline: none;
+  border-color: var(--violet-soft);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.social-icon {
+  color: var(--text-mid);
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.social-icon:hover {
+  color: var(--violet-soft);
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .glow-orb,
+  .track-card,
+  .beat-row,
+  .btn-primary {
+    animation: none !important;
+    transition: none !important;
+  }
+}

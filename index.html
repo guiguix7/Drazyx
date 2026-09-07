@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Título e descrição padrão — cada página sobrescreve via componente SEO -->
+  <title>Drazyx</title>
+  <meta name="description"
+    content="Site oficial de Drazyx, artista e produtor independente. Sons melancólicos entre trap, electronic e lo-fi. Ouça músicas, compre beats e conheça os serviços de produção." />
+  <link rel="canonical" href="https://drazyx.com/" />
+  <!-- TODO: confirmar o domínio final e ajustar todas as URLs canônicas/OG abaixo -->
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Drazyx" />
+  <meta property="og:title" content="Drazyx — Producer / Artist" />
+  <meta property="og:description"
+    content="Sons melancólicos entre trap, electronic e lo-fi. Ouça músicas, compre beats e conheça os serviços de produção de Drazyx." />
+  <meta property="og:url" content="https://drazyx.com/" />
+  <!-- TODO: adicionar imagem de Open Graph real (1200x630) -->
+  <meta property="og:image" content="/og-image.jpg" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Drazyx — Producer / Artist" />
+  <meta name="twitter:description" content="Sons melancólicos entre trap, electronic e lo-fi." />
+  <meta name="twitter:image" content="/og-image.jpg" />
+
+  <!-- TODO: adicionar favicon real em /public/favicon.ico -->
+  <link rel="icon" href="/favicon.ico" />
+
+  <!-- Dados estruturados: MusicGroup/Person -->
+  <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "MusicGroup",
+        "name": "Drazyx",
+        "url": "https://drazyx.com/",
+        "genre": ["Trap", "Electronic", "Lo-fi", "Phonk", "Jersey Club"],
+        "sameAs": [
+          "https://open.spotify.com/intl-pt/artist/71gVcrLVY10LjtZWvUWLQU",
+          "https://www.instagram.com/drazyxmusic/",
+          "https://www.tiktok.com/@drazyxmusic",
+          "https://www.youtube.com/@drazyxmusic",
+          "https://soundcloud.com/drazyxmusic"
+        ]
+      }
+    </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>
