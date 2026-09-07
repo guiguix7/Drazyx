@@ -1,6 +1,6 @@
-import SEO from "../components/SEO";
-import Reveal from "../components/Reval";
-import { releases } from "../data/releases";
+import SEO from "../components/Seo.jsx";
+import Reveal from "../components/Reval.jsx";
+import { releases } from "../data/Releases.js";
 
 // Gêneros informados diretamente por você.
 const genres = ["Trap", "Electronic", "Lo-fi", "Phonk", "Jersey Club"];

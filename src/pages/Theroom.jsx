@@ -1,6 +1,6 @@
-import SEO from "../components/SEO";
-import Reveal from "../components/Reval";
-import NewsletterForm from "../components/NewsletterForm";
+import SEO from "../components/Seo.jsx";
+import Reveal from "../components/Reval.jsx";
+import NewsletterForm from "../components/Newsletterform.jsx";
 
 // TODO: substituir por conteúdo real quando houver demos, unreleased
 // tracks, MIDI, samples, wallpapers ou project files para disponibilizar.

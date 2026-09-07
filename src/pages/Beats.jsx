@@ -1,7 +1,7 @@
-import SEO from "../components/SEO";
-import Reveal from "../components/Reval";
-import BeatRow from "../components/BeatRow";
-import { beats } from "../data/beats";
+import SEO from "../components/Seo.jsx";
+import Reveal from "../components/Reval.jsx";
+import BeatRow from "../components/Beatrow.jsx";
+import { beats } from "../data/Beats.js";
 
 export default function Beats() {
     return (

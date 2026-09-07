@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Music2, Video, Camera, Disc3, Radio } from "lucide-react";
-import { socialLinks, contactEmail } from "../data/socialLinks";
+import { socialLinks, contactEmail } from "../data/Sociallinks.js";
 
 const socials = [
     { icon: Music2, label: "Spotify", href: socialLinks.spotify },

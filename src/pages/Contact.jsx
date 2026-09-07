@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Send } from "lucide-react";
-import SEO from "../components/SEO";
-import Reveal from "../components/Reval";
-import { contactSubjects } from "../data/contact";
-import { contactEmail } from "../data/socialLinks";
+import SEO from "../components/Seo.jsx";
+import Reveal from "../components/Reval.jsx";
+import { contactSubjects } from "../data/Contact.js";
+import { contactEmail } from "../data/Sociallinks.js";
 
 /**
  * TODO: conectar a um serviço real de envio de formulário (ex: Formspree,

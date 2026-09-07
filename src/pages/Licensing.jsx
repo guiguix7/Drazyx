@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import SEO from "../components/SEO";
-import Reveal from "../components/Reval";
-import { licensingUseCases } from "../data/contact";
+import SEO from "../components/Seo.jsx";
+import Reveal from "../components/Reval.jsx";
+import { licensingUseCases } from "../data/Contact.js";
 
 export default function Licensing() {
     return (

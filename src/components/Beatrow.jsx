@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Play, Pause } from "lucide-react";
-import { useAudioPlayer } from "./Audioplayer";
+import { useAudioPlayer } from "./Audioplayer.jsx";
 
 export default function BeatRow({ beat }) {
     const { playingId, toggle } = useAudioPlayer();

@@ -1,7 +1,7 @@
-import SEO from "../components/SEO";
-import Reveal from "../components/Reval";
-import SupportCard from "../components/SupportCard";
-import { supportLinks } from "../data/socialLinks";
+import SEO from "../components/Seo.jsx";
+import Reveal from "../components/Reval.jsx";
+import SupportCard from "../components/Supportcard.jsx";
+import { supportLinks } from "../data/Sociallinks.js";
 
 export default function Support() {
     return (

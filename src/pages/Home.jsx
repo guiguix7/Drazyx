@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { ChevronDown, Music2 } from "lucide-react";
-import SEO from "../components/SEO";
-import Reveal from "../components/Reval";
-import BeatRow from "../components/BeatRow";
+import SEO from "../components/Seo.jsx";
+import Reveal from "../components/Reval.jsx";
+import BeatRow from "../components/Beatrow.jsx";
 import { latestRelease } from "../data/Releases.js";
 import { featuredBeat } from "../data/Beats.js";
 

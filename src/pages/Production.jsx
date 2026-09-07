@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import SEO from "../components/SEO";
-import Reveal from "../components/Reval";
-import { services } from "../data/services";
+import SEO from "../components/Seo.jsx";
+import Reveal from "../components/Reval.jsx";
+import { services } from "../data/Services.js";
 
 export default function Production() {
     return (

@@ -1,7 +1,7 @@
-import SEO from "../components/SEO";
-import Reveal from "../components/Reval";
-import ReleaseCard from "../components/ReleaseCard";
-import { releases } from "../data/releases";
+import SEO from "../components/Seo.jsx";
+import Reveal from "../components/Reval.jsx";
+import ReleaseCard from "../components/Releasecard.jsx";
+import { releases } from "../data/Releases.js";
 
 // TODO: quando houver mais lançamentos, separar de fato em grupos
 // (Latest Releases / Singles / Albums & EPs / Instrumentals) filtrando

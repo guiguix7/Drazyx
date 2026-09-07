@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import { AudioPlayerProvider } from "./components/Audioplayer";
-import { Analytics } from "@vercel/analytics/next"
+import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer.jsx";
+import { AudioPlayerProvider } from "./components/Audioplayer.jsx";
+import { Analytics } from "@vercel/analytics/react";
 
 import Home from "./pages/Home.jsx";
 import Music from "./pages/Music.jsx";
