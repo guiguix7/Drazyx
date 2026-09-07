@@ -11,7 +11,7 @@ export default function Home() {
         <>
             <SEO
                 path="/"
-                title="Producer / Artist"
+                title=""
                 description="Site oficial de Drazyx. Sons melancólicos entre trap, electronic e lo-fi. Ouça músicas, compre beats e conheça os serviços de produção."
             />
 
