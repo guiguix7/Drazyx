@@ -3,8 +3,8 @@ import { ChevronDown, Music2 } from "lucide-react";
 import SEO from "../components/SEO";
 import Reveal from "../components/Reval";
 import BeatRow from "../components/BeatRow";
-import { latestRelease } from "../data/releases";
-import { featuredBeat } from "../data/beats";
+import { latestRelease } from "../data/Releases.js";
+import { featuredBeat } from "../data/Beats.js";
 
 export default function Home() {
     return (
