@@ -1,16 +1,32 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap");
 @import "tailwindcss";
 
+/*
+  Design tokens — based on Drazyx's existing Bandcamp palette.
+  Accent (--color-accent) behaves like a light source: links, active
+  states, player controls, tiny highlights. It is NOT a background color
+  and should never cover large areas.
+*/
 :root {
-    --bg-base: #08070c;
-    --bg-elevated: rgba(255, 255, 255, 0.035);
-    --border-hair: rgba(255, 255, 255, 0.09);
-    --violet: #7c5cff;
-    --violet-soft: #a78bfa;
-    --crimson: #9c2b46;
-    --text-hi: #eeecf7;
-    --text-mid: #b5b2c9;
-    --text-low: #706d85;
+    --color-bg: #070810;
+    --color-surface: #11101a;
+    --color-surface-2: #18131d;
+    --color-text: #f2edf5;
+    --color-text-secondary: #a99eae;
+    --color-accent: #b84dff;
+    --color-accent-soft: #c988ff;
+
+    --border-hair: rgba(242, 237, 245, 0.08);
+
+    /* Back-compat aliases used across existing components */
+    --bg-base: var(--color-bg);
+    --bg-elevated: var(--color-surface);
+    --violet: var(--color-accent);
+    --violet-soft: var(--color-accent-soft);
+    --text-hi: var(--color-text);
+    --text-mid: var(--color-text-secondary);
+    --text-low: #6f6878;
+
     --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
     --font-body: "Inter", system-ui, sans-serif;
 }
@@ -20,25 +36,30 @@ html {
 }
 
 body {
-    background: var(--bg-base);
-    color: var(--text-hi);
+    background: var(--color-bg);
+    color: var(--color-text);
     font-family: var(--font-body);
 }
 
 ::selection {
-    background: var(--violet);
-    color: #08070c;
+    background: var(--color-accent);
+    color: var(--color-bg);
 }
 
 .font-display {
     font-family: var(--font-display);
 }
 
-.glass {
-    background: var(--bg-elevated);
+/* Restrained surface — a flat panel, not heavy glassmorphism */
+.surface {
+    background: var(--color-surface);
     border: 1px solid var(--border-hair);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+}
+
+/* Kept for components still referencing .glass — now a much lighter effect */
+.glass {
+    background: var(--color-surface);
+    border: 1px solid var(--border-hair);
 }
 
 .grain::before {
@@ -46,35 +67,36 @@ body {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.04;
+    opacity: 0.035;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* Single, slow, restrained glow — a presence, not a light show */
 @keyframes pulseGlow {
 
     0%,
     100% {
-        opacity: 0.5;
+        opacity: 0.35;
     }
 
     50% {
-        opacity: 0.85;
+        opacity: 0.55;
     }
 }
 
 .glow-orb {
-    animation: pulseGlow 8s ease-in-out infinite;
+    animation: pulseGlow 10s ease-in-out infinite;
 }
 
 .nav-link {
     position: relative;
-    color: var(--text-mid);
-    transition: color 0.25s ease;
+    color: var(--color-text-secondary);
+    transition: color 0.2s ease;
 }
 
 .nav-link:hover,
 .nav-link.active {
-    color: var(--text-hi);
+    color: var(--color-text);
 }
 
 .nav-link::after {
@@ -84,8 +106,8 @@ body {
     bottom: -4px;
     width: 0;
     height: 1px;
-    background: var(--violet-soft);
-    transition: width 0.25s ease;
+    background: var(--color-accent);
+    transition: width 0.2s ease;
 }
 
 .nav-link:hover::after,
@@ -94,57 +116,56 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--violet), #5b3fd6);
-    color: #f5f3ff;
-    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    background: var(--color-accent);
+    color: #0c0310;
+    transition: filter 0.2s ease, transform 0.15s ease;
 }
 
 .btn-primary:hover {
-    box-shadow: 0 0 28px rgba(124, 92, 255, 0.45);
+    filter: brightness(1.1);
     transform: translateY(-1px);
 }
 
 .btn-primary:disabled {
-    opacity: 0.5;
-    box-shadow: none;
+    opacity: 0.4;
+    filter: none;
     transform: none;
     cursor: not-allowed;
 }
 
 .btn-secondary {
-    background: var(--bg-elevated);
+    background: transparent;
     border: 1px solid var(--border-hair);
-    color: var(--text-hi);
-    transition: border-color 0.25s ease, background 0.25s ease;
+    color: var(--color-text);
+    transition: border-color 0.2s ease, color 0.2s ease;
 }
 
 .btn-secondary:hover {
-    border-color: rgba(167, 139, 250, 0.5);
-    background: rgba(124, 92, 255, 0.08);
+    border-color: var(--color-accent);
+    color: var(--color-accent-soft);
 }
 
 .btn-ghost {
-    color: var(--text-mid);
+    color: var(--color-text-secondary);
     border: 1px solid transparent;
-    transition: color 0.25s ease, border-color 0.25s ease;
+    transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 .btn-ghost:hover {
-    color: var(--text-hi);
+    color: var(--color-text);
     border-color: var(--border-hair);
 }
 
 .price-chip {
     border: 1px solid var(--border-hair);
-    color: var(--text-mid);
+    color: var(--color-text-secondary);
     transition: all 0.2s ease;
 }
 
 .price-chip:hover,
 .price-chip:focus-visible {
-    border-color: var(--violet-soft);
-    color: var(--text-hi);
-    background: rgba(124, 92, 255, 0.1);
+    border-color: var(--color-accent);
+    color: var(--color-text);
 }
 
 .price-chip:disabled {
@@ -153,10 +174,10 @@ body {
 }
 
 .field {
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--color-surface);
     border: 1px solid var(--border-hair);
-    color: var(--text-hi);
-    transition: border-color 0.2s ease, background 0.2s ease;
+    color: var(--color-text);
+    transition: border-color 0.2s ease;
 }
 
 .field::placeholder {
@@ -164,38 +185,38 @@ body {
 }
 
 .field:focus-visible {
-    outline: 2px solid var(--violet-soft);
+    outline: 2px solid var(--color-accent-soft);
     outline-offset: 1px;
 }
 
 .field[aria-invalid="true"] {
-    border-color: var(--crimson);
+    border-color: #e05c7a;
 }
 
 .social-icon {
-    color: var(--text-mid);
-    transition: color 0.25s ease, transform 0.25s ease;
+    color: var(--color-text-secondary);
+    transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .social-icon:hover,
 .social-icon:focus-visible {
-    color: var(--violet-soft);
+    color: var(--color-accent-soft);
     transform: translateY(-2px);
 }
 
 .card-hover {
-    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease;
 }
 
 .card-hover:hover {
-    transform: translateY(-4px);
-    border-color: rgba(167, 139, 250, 0.35);
+    transform: translateY(-3px);
+    border-color: rgba(184, 77, 255, 0.35);
 }
 
 /* Reveal-on-scroll: single subtle fade + translate, no bounce */
 .reveal {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(12px);
     transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
@@ -205,7 +226,7 @@ body {
 }
 
 :focus-visible {
-    outline: 2px solid var(--violet-soft);
+    outline: 2px solid var(--color-accent-soft);
     outline-offset: 2px;
 }
 

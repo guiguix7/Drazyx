@@ -1,93 +1,95 @@
 import { Link } from "react-router-dom";
-import { ChevronDown, Music2 } from "lucide-react";
+import { ChevronDown, Music2, Radio, Video, Camera, Disc3, Disc } from "lucide-react";
 import SEO from "../components/Seo.jsx";
 import Reveal from "../components/Reval.jsx";
-import BeatRow from "../components/Beatrow.jsx";
-import { latestRelease } from "../data/Releases.js";
-import { featuredBeat } from "../data/Beats.js";
+import { latestRelease, releases } from "../data/Releases.js";
+import { socialLinks } from "../data/Sociallinks.js";
+
+const followPlatforms = [
+    { icon: Music2, label: "Spotify", sub: "listen", href: socialLinks.spotify },
+    { icon: Radio, label: "SoundCloud", sub: "experiments", href: socialLinks.soundcloud },
+    { icon: Video, label: "YouTube", sub: "videos", href: socialLinks.youtube },
+    { icon: Camera, label: "Instagram", sub: "personality", href: socialLinks.instagram },
+    { icon: Disc3, label: "TikTok", sub: "discovery", href: socialLinks.tiktok },
+];
 
 export default function Home() {
     return (
         <>
             <SEO
                 path="/"
-                title=""
-                description="Site oficial de Drazyx. Sons melancólicos entre trap, electronic e lo-fi. Ouça músicas, compre beats e conheça os serviços de produção."
+                title="Producer / Artist"
+                description="Drazyx — an independent artist and producer making atmospheric, melancholic music between trap, electronic and lo-fi."
             />
 
-            {/* HERO */}
+            {/* HERO — atmospheric, personal. Artist name is the strongest element. */}
             <section className="relative h-screen min-h-[640px] flex flex-col items-center justify-center px-6 overflow-hidden grain">
                 <div
-                    className="absolute -top-40 left-1/2 -translate-x-1/2 w-[560px] h-[560px] rounded-full blur-[140px] glow-orb"
-                    style={{ background: "radial-gradient(circle, rgba(124,92,255,0.35), transparent 70%)" }}
-                />
-                <div
-                    className="absolute bottom-0 right-0 w-[420px] h-[420px] rounded-full blur-[130px]"
-                    style={{ background: "radial-gradient(circle, rgba(156,43,70,0.2), transparent 70%)" }}
+                    className="absolute -top-40 left-1/2 -translate-x-1/2 w-[520px] h-[520px] rounded-full blur-[150px] glow-orb"
+                    style={{ background: "radial-gradient(circle, rgba(184,77,255,0.3), transparent 70%)" }}
                 />
 
-                <div className="relative text-center max-w-3xl">
-                    <h1 className="font-display font-bold text-[clamp(3.5rem,13vw,8rem)] leading-[0.9] tracking-tight text-[var(--text-hi)]">
+                <div className="relative text-center max-w-2xl">
+                    <h1 className="font-display font-bold text-[clamp(3.5rem,13vw,8rem)] leading-[0.9] tracking-tight text-[var(--color-text)]">
                         DRAZYX
                     </h1>
-                    <p className="mt-4 text-lg text-[var(--text-mid)] font-display">Producer / Artist</p>
-                    <p className="mt-6 text-base sm:text-lg text-[var(--text-mid)] max-w-xl mx-auto leading-relaxed">
-                        Melancholic sounds from somewhere between trap &amp; lo-fi.
+                    <p className="mt-5 text-base sm:text-lg text-[var(--color-text-secondary)] max-w-md mx-auto leading-relaxed">
+                        music from somewhere between the internet, midnight and memory.
                     </p>
 
-                    <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-                        <Link to="/music" className="btn-secondary px-6 py-3 rounded-full text-sm">
+                    <div className="mt-10">
+                        <Link to="/music" className="btn-primary px-7 py-3 rounded-full text-sm font-medium inline-block">
                             Listen
-                        </Link>
-                        <Link to="/beats" className="btn-primary px-6 py-3 rounded-full text-sm font-medium">
-                            Explore Beats
-                        </Link>
-                        <Link to="/contact" className="btn-secondary px-6 py-3 rounded-full text-sm">
-                            Contact
                         </Link>
                     </div>
                 </div>
 
                 <a
-                    href="#latest-release"
-                    className="absolute bottom-8 text-[var(--text-low)] hover:text-[var(--text-mid)] transition-colors"
-                    aria-label="Rolar para baixo"
+                    href="#latest-music"
+                    className="absolute bottom-8 text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
+                    aria-label="Scroll down"
                 >
                     <ChevronDown size={22} />
                 </a>
             </section>
 
-            {/* LATEST RELEASE */}
-            <section id="latest-release" className="py-28 px-6">
+            {/* LATEST MUSIC */}
+            <section id="latest-music" className="py-24 px-6">
                 <Reveal as="div" className="max-w-4xl mx-auto">
-                    <p className="text-xs tracking-wide text-[var(--violet-soft)] mb-3">Latest Release</p>
-                    <div className="glass rounded-2xl overflow-hidden grid-cols-1 sm:grid-cols-[220px_1fr]">
-                        <iframe data-testid="embed-iframe" className="p-4 h-120"
-                            src={latestRelease.spotifyEmbedUrl} width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
-                        </iframe>
-                        <div className="p-6 sm:p-8 flex flex-col">
-                            <div className="mt-0 flex flex-wrap gap-3 justify-center">
+                    <p className="text-xs tracking-wide text-[var(--color-accent-soft)] mb-3">Latest</p>
+                    <div className="surface rounded-xl overflow-hidden grid grid-cols-1 sm:grid-cols-[220px_1fr]">
+                        <div className="aspect-square bg-[var(--color-surface-2)] flex items-center justify-center">
+                            {latestRelease.coverUrl ? (
+                                <img
+                                    src={latestRelease.coverUrl}
+                                    alt={`Cover art for ${latestRelease.title}`}
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <span className="text-xs text-[var(--text-low)]">[ADD COVER]</span>
+                            )}
+                        </div>
+                        <div className="p-6 sm:p-8 flex flex-col justify-center">
+                            <h2 className="font-display text-2xl sm:text-3xl text-[var(--color-text)]">
+                                {latestRelease.title}
+                            </h2>
+                            <p className="text-sm text-[var(--text-low)] mt-1">
+                                {latestRelease.type} · {latestRelease.year}
+                            </p>
+                            <p className="mt-4 text-sm text-[var(--color-text-secondary)] leading-relaxed">
+                                {latestRelease.description}
+                            </p>
+                            <div className="mt-6 flex flex-wrap gap-3">
                                 <a
                                     href={latestRelease.spotifyUrl}
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="btn-primary px-5 py-2.5 rounded-full text-sm inline-flex items-center gap-2"
+                                    className="btn-primary px-5 py-2.5 rounded-full text-sm"
                                 >
-                                    <Music2 size={15} /> Listen on Spotify
+                                    Listen
                                 </a>
-                                <a
-                                    href={latestRelease.soundcloudUrl}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="btn-primary px-5 py-2.5 rounded-full text-sm inline-flex items-center gap-2"
-                                >
-                                    <Music2 size={15} /> Listen on SoundCloud
-                                </a>
-                                <Link
-                                    to={`/music/${latestRelease.id}`}
-                                    className="btn-secondary px-5 py-2.5 rounded-full text-sm"
-                                >
-                                    View release
+                                <Link to={`/music/${latestRelease.id}`} className="btn-secondary px-5 py-2.5 rounded-full text-sm">
+                                    Open release
                                 </Link>
                             </div>
                         </div>
@@ -95,69 +97,95 @@ export default function Home() {
                 </Reveal>
             </section>
 
-            {/* FEATURED BEAT per Album*/}
-            <section className="py-16 px-6">
-                <Reveal as="div" className="max-w-4xl mx-auto">
-                    <p className="text-xs tracking-wide text-[var(--violet-soft)] mb-3">Featured Beat</p>
-                    <div className="glass rounded-2xl p-2">
-                        <BeatRow beat={featuredBeat} />
-                        <BeatRow beat={featuredBeat} />
-                        <BeatRow beat={featuredBeat} />
-                    </div>
-                    <div className="mt-4 text-right">
-                        <Link to="/beats" className="text-sm text-[var(--text-mid)] hover:text-[var(--text-hi)]">
-                            View all beats
+            {/* SELECTED MUSIC */}
+            {releases.length > 1 && (
+                <section className="py-16 px-6">
+                    <Reveal as="div" className="max-w-4xl mx-auto">
+                        <p className="text-xs tracking-wide text-[var(--color-accent-soft)] mb-6">Selected Music</p>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            {releases.map((r) => (
+                                <Link key={r.id} to={`/music/${r.id}`} className="card-hover surface rounded-lg overflow-hidden block">
+                                    <div className="aspect-square bg-[var(--color-surface-2)] flex items-center justify-center">
+                                        {r.coverUrl ? (
+                                            <img src={r.coverUrl} alt={`Cover art for ${r.title}`} className="w-full h-full object-cover" />
+                                        ) : (
+                                            <span className="text-[10px] text-[var(--text-low)] px-2 text-center">[ADD COVER]</span>
+                                        )}
+                                    </div>
+                                    <p className="text-xs text-[var(--color-text)] px-2 py-2 truncate">{r.title}</p>
+                                </Link>
+                            ))}
+                        </div>
+                        <Link to="/music" className="inline-block mt-6 text-sm text-[var(--color-text-secondary)] hover:text-[var(--color-text)]">
+                            See the full catalog →
                         </Link>
-                    </div>
-                </Reveal>
-            </section>
+                    </Reveal>
+                </section>
+            )}
 
-            {/* ABOUT TEASER */}
+            {/* WHO IS DRAZYX — short, human, not corporate */}
             <section className="py-24 px-6">
-                <Reveal as="div" className="max-w-2xl mx-auto text-center">
-                    <h2 className="font-display text-2xl sm:text-3xl text-[var(--text-hi)]">About</h2>
-                    <p className="mt-4 text-[var(--text-mid)] leading-relaxed">
-                        Drazyx is an independent artist and producer creating melancholic sounds
-                        between trap, electronic and lo-fi.
+                <Reveal as="div" className="max-w-xl mx-auto text-center">
+                    <h2 className="font-display text-2xl sm:text-3xl text-[var(--color-text)]">Who is Drazyx?</h2>
+                    <p className="mt-4 text-[var(--color-text-secondary)] leading-relaxed">
+                        Drazyx is an independent artist and producer making atmospheric, melancholic
+                        music somewhere between trap, electronic and lo-fi — built from late nights,
+                        internet culture and the worlds he's imagined himself into.
                     </p>
-                    <Link
-                        to="/about"
-                        className="inline-block mt-6 btn-secondary px-5 py-2.5 rounded-full text-sm"
-                    >
+                    <Link to="/about" className="inline-block mt-6 btn-secondary px-5 py-2.5 rounded-full text-sm">
                         More about Drazyx
                     </Link>
                 </Reveal>
             </section>
 
-            {/* THE ROOM TEASER */}
+            {/* THE ROOM — emotional center */}
             <section className="py-24 px-6">
-                <Reveal as="div" className="max-w-2xl mx-auto text-center">
-                    <h2 className="font-display text-2xl sm:text-3xl text-[var(--text-hi)]">The Room</h2>
-                    <p className="mt-4 text-[var(--text-mid)] leading-relaxed">
-                        Unreleased ideas, demos, experiments and things that don't belong anywhere else.
+                <Reveal as="div" className="max-w-xl mx-auto text-center">
+                    <h2 className="font-display text-2xl sm:text-3xl text-[var(--color-text)]">The Room</h2>
+                    <p className="mt-4 text-[var(--color-text-secondary)] leading-relaxed">
+                        There's more here. Unreleased music, demos, experiments, notes — the side
+                        of the process that doesn't belong anywhere else.
                     </p>
-                    <Link
-                        to="/the-room"
-                        className="inline-block mt-6 btn-secondary px-5 py-2.5 rounded-full text-sm"
-                    >
+                    <Link to="/the-room" className="inline-block mt-6 btn-primary px-5 py-2.5 rounded-full text-sm font-medium">
                         Enter the Room
                     </Link>
                 </Reveal>
             </section>
 
-            {/* SUPPORT TEASER */}
-            <section className="py-24 px-6">
-                <Reveal as="div" className="max-w-2xl mx-auto text-center">
-                    <h2 className="font-display text-2xl sm:text-3xl text-[var(--text-hi)]">Support the Music</h2>
-                    <p className="mt-4 text-[var(--text-mid)] leading-relaxed">
-                        If something I made stayed with you, you can help me make more.
+            {/* FOLLOW THE WORLD */}
+            <section className="py-20 px-6">
+                <Reveal as="div" className="max-w-2xl mx-auto">
+                    <p className="text-xs tracking-wide text-[var(--color-accent-soft)] mb-6 text-center">Follow the World</p>
+                    <div className="flex flex-wrap items-center justify-center gap-3">
+                        {followPlatforms.map((p) => (
+                            <a
+                                key={p.label}
+                                href={p.href}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="btn-secondary px-4 py-2 rounded-full text-sm inline-flex items-center gap-2"
+                            >
+                                <p.icon size={15} /> {p.label}
+                            </a>
+                        ))}
+                    </div>
+                </Reveal>
+            </section>
+
+            {/* BANDCAMP / SUPPORT — a softer CTA */}
+            <section className="py-20 px-6">
+                <Reveal as="div" className="max-w-md mx-auto text-center">
+                    <p className="text-[var(--color-text-secondary)]">
+                        If something here stayed with you, the music lives on Bandcamp too.
                     </p>
-                    <Link
-                        to="/support"
-                        className="inline-block mt-6 btn-primary px-5 py-2.5 rounded-full text-sm font-medium"
+                    <a
+                        href={socialLinks.bandcamp}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 mt-5 btn-secondary px-5 py-2.5 rounded-full text-sm"
                     >
-                        Support Drazyx
-                    </Link>
+                        <Disc size={15} /> Drazyx on Bandcamp
+                    </a>
                 </Reveal>
             </section>
         </>

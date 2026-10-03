@@ -2,43 +2,48 @@ import SEO from "../components/Seo.jsx";
 import Reveal from "../components/Reval.jsx";
 import NewsletterForm from "../components/Newsletterform.jsx";
 
-// TODO: substituir por conteúdo real quando houver demos, unreleased
-// tracks, MIDI, samples, wallpapers ou project files para disponibilizar.
-const placeholderItems = [
-    { type: "Demo", title: "[ADD DEMO TITLE]" },
-    { type: "Experiment", title: "[ADD EXPERIMENT TITLE]" },
-    { type: "Behind the Music", title: "[ADD BTS CONTENT]" },
+// TODO: replace with real entries once there's unreleased music, demos,
+// sketches, process notes or personal posts to show. Keep the numbered,
+// journal-like format — it's what makes this feel alive instead of a
+// static "stay tuned" page. Architecture is ready for this to eventually
+// be powered by a CMS/admin panel (see README).
+const roomEntries = [
+    { number: "01", category: "Demo", title: "[ADD ENTRY TITLE]", note: "[ADD A SHORT NOTE]" },
+    { number: "02", category: "Process", title: "[ADD ENTRY TITLE]", note: "[ADD A SHORT NOTE]" },
+    { number: "03", category: "Visual", title: "[ADD ENTRY TITLE]", note: "[ADD A SHORT NOTE]" },
 ];
 
 export default function TheRoom() {
     return (
         <div className="pt-32 pb-24 px-6">
-            <SEO
-                path="/the-room"
-                title="The Room"
-                description="Demos, ideias inacabadas e experimentos de Drazyx."
-            />
-            <div className="max-w-3xl mx-auto">
+            <SEO path="/the-room" title="The Room" description="Demos, unfinished ideas and experiments from Drazyx." />
+            <div className="max-w-2xl mx-auto">
                 <Reveal as="div">
-                    <h1 className="font-display text-3xl sm:text-4xl text-[var(--text-hi)]">The Room</h1>
-                    <p className="mt-4 text-[var(--text-mid)] leading-relaxed">
+                    <h1 className="font-display text-3xl sm:text-4xl text-[var(--color-text)]">The Room</h1>
+                    <p className="mt-4 text-[var(--color-text-secondary)] leading-relaxed">
                         Unfinished things, late night ideas, sounds that almost became songs.
+                        You found something that isn't on Spotify.
                     </p>
                 </Reveal>
 
-                <Reveal as="div" className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-5">
-                    {placeholderItems.map((item, i) => (
-                        <div key={i} className="glass rounded-2xl p-6 aspect-square flex flex-col justify-between">
-                            <p className="text-xs tracking-wide text-[var(--violet-soft)]">{item.type}</p>
-                            <p className="text-sm text-[var(--text-low)]">{item.title}</p>
+                <Reveal as="div" className="mt-14 space-y-px">
+                    {roomEntries.map((e) => (
+                        <div key={e.number} className="surface rounded-lg p-5 flex items-start gap-5 mb-3">
+                            <span className="font-display text-sm text-[var(--text-low)] pt-0.5">{e.number}</span>
+                            <div>
+                                <p className="text-xs tracking-wide text-[var(--color-accent-soft)]">{e.category}</p>
+                                <p className="text-[var(--color-text)] mt-1">{e.title}</p>
+                                <p className="text-sm text-[var(--color-text-secondary)] mt-1">{e.note}</p>
+                            </div>
                         </div>
                     ))}
                 </Reveal>
 
-                <Reveal as="div" className="mt-16 glass rounded-2xl p-8">
-                    <h2 className="font-display text-xl text-[var(--text-hi)]">Join the Room</h2>
-                    <p className="mt-2 text-sm text-[var(--text-mid)] max-w-md">
-                        Get unreleased music, demos and occasional drops from Drazyx.
+                <Reveal as="div" className="mt-16 surface rounded-xl p-8">
+                    <h2 className="font-display text-xl text-[var(--color-text)]">Stay in the Room</h2>
+                    <p className="mt-2 text-sm text-[var(--color-text-secondary)] max-w-md">
+                        Get things before they leave the room — unreleased previews, demos and
+                        occasional notes from Drazyx.
                     </p>
                     <div className="mt-5">
                         <NewsletterForm />
@@ -46,9 +51,9 @@ export default function TheRoom() {
                 </Reveal>
 
                 <Reveal as="div" className="mt-16">
-                    <h2 className="font-display text-lg text-[var(--text-hi)] mb-3">Free Downloads</h2>
-                    <p className="text-sm text-[var(--text-mid)]">
-                        [ADD FREE DOWNLOADS: free beats, MIDI, samples, wallpapers, presets ou project files]
+                    <h2 className="font-display text-base text-[var(--color-text)] mb-3">Free Downloads</h2>
+                    <p className="text-sm text-[var(--color-text-secondary)]">
+                        [ADD FREE DOWNLOADS: free beats, MIDI, samples, wallpapers, presets or project files]
                     </p>
                 </Reveal>
             </div>

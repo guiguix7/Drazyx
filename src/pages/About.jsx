@@ -1,42 +1,33 @@
 import SEO from "../components/Seo.jsx";
 import Reveal from "../components/Reval.jsx";
-import { releases } from "../data/Releases.js";
 
-// Gêneros informados diretamente por você.
+// Genres you've confirmed directly — real, not inferred.
 const genres = ["Trap", "Electronic", "Lo-fi", "Phonk", "Jersey Club"];
 
 export default function About() {
     return (
         <div className="pt-32 pb-24 px-6">
-            <SEO
-                path="/about"
-                title="About"
-                description="Sobre Drazyx — artista e produtor independente."
-            />
-            <div className="max-w-3xl mx-auto">
+            <SEO path="/about" title="About" description="Who Drazyx is, what he makes, and what inspires him." />
+            <div className="max-w-2xl mx-auto">
                 <Reveal as="div">
-                    <h1 className="font-display text-3xl sm:text-4xl text-[var(--text-hi)]">About</h1>
-                </Reveal>
-
-                <Reveal as="div" className="mt-10">
-                    <h2 className="font-display text-lg text-[var(--text-hi)] mb-3">Bio</h2>
-                    {/* TODO: substituir pelo texto de bio real do artista */}
-                    <p className="text-[var(--text-mid)] leading-relaxed">[ADD BIO HERE]</p>
+                    <h1 className="font-display text-3xl sm:text-4xl text-[var(--color-text)]">About</h1>
                 </Reveal>
 
                 <Reveal as="div" className="mt-12">
-                    <h2 className="font-display text-lg text-[var(--text-hi)] mb-3">Artistic Identity</h2>
-                    {/* TODO: substituir pelo texto real de influências/estética */}
-                    <p className="text-[var(--text-mid)] leading-relaxed">
-                        [ADD ARTISTIC IDENTITY / INFLUENCES TEXT]
+                    <h2 className="font-display text-lg text-[var(--color-accent-soft)] mb-3">Who</h2>
+                    {/* TODO: replace with the artist's real voice — who he is, in his own words */}
+                    <p className="text-[var(--color-text-secondary)] leading-relaxed">[ADD BIO HERE]</p>
+                </Reveal>
+
+                <Reveal as="div" className="mt-12">
+                    <h2 className="font-display text-lg text-[var(--color-accent-soft)] mb-3">What I Make</h2>
+                    <p className="text-[var(--color-text-secondary)] leading-relaxed mb-4">
+                        Music that moves between genres but keeps the same feeling — atmosphere,
+                        nighttime, nostalgia, the space between darkness and warmth.
                     </p>
-                </Reveal>
-
-                <Reveal as="div" className="mt-12">
-                    <h2 className="font-display text-lg text-[var(--text-hi)] mb-3">Music</h2>
-                    <div className="flex flex-wrap gap-2.5">
+                    <div className="flex flex-wrap gap-2">
                         {genres.map((g) => (
-                            <span key={g} className="glass rounded-full px-4 py-1.5 text-sm text-[var(--text-mid)]">
+                            <span key={g} className="surface rounded-full px-4 py-1.5 text-sm text-[var(--color-text-secondary)]">
                                 {g}
                             </span>
                         ))}
@@ -44,25 +35,23 @@ export default function About() {
                 </Reveal>
 
                 <Reveal as="div" className="mt-12">
-                    <h2 className="font-display text-lg text-[var(--text-hi)] mb-3">Production</h2>
-                    {/* TODO: substituir pelo texto real sobre o que ele produz */}
-                    <p className="text-[var(--text-mid)] leading-relaxed">
-                        [ADD PRODUCTION DESCRIPTION]
+                    <h2 className="font-display text-lg text-[var(--color-accent-soft)] mb-3">What Inspires Me</h2>
+                    {/* TODO: real influences — games, anime, specific artists, personal experiences */}
+                    <p className="text-[var(--color-text-secondary)] leading-relaxed">
+                        [ADD INFLUENCES — games, anime, artists, memories, anything that actually shaped the sound]
                     </p>
                 </Reveal>
 
                 <Reveal as="div" className="mt-12">
-                    <h2 className="font-display text-lg text-[var(--text-hi)] mb-4">Timeline</h2>
-                    {/* TODO: ordenar cronologicamente com datas reais quando existirem */}
-                    <ul className="space-y-3">
-                        {releases.map((r) => (
-                            <li key={r.id} className="flex items-baseline gap-4 text-sm">
-                                <span className="text-[var(--text-low)] w-16 flex-shrink-0">{r.year}</span>
-                                <span className="text-[var(--text-hi)]">{r.title}</span>
-                                <span className="text-[var(--text-low)]">{r.type}</span>
-                            </li>
-                        ))}
-                    </ul>
+                    <h2 className="font-display text-lg text-[var(--color-accent-soft)] mb-3">The Story</h2>
+                    {/* TODO: how it started, how the sound has changed over time — no invented milestones */}
+                    <p className="text-[var(--color-text-secondary)] leading-relaxed">[ADD THE STORY]</p>
+                </Reveal>
+
+                <Reveal as="div" className="mt-12">
+                    <h2 className="font-display text-lg text-[var(--color-accent-soft)] mb-3">Currently</h2>
+                    {/* TODO: what he's working on / listening to / playing right now — keep this one easy to update often */}
+                    <p className="text-[var(--color-text-secondary)] leading-relaxed">[ADD WHAT'S CURRENT]</p>
                 </Reveal>
             </div>
         </div>
