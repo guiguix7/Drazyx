@@ -2,56 +2,53 @@ import { Link } from "react-router-dom";
 import { Play, Pause } from "lucide-react";
 import { useAudioPlayer } from "./Audioplayer.jsx";
 
+// A beat as a small piece of the Drazyx world, not a marketplace listing.
 export default function BeatRow({ beat }) {
     const { playingId, toggle } = useAudioPlayer();
     const isPlaying = playingId === beat.id;
     const hasPreview = Boolean(beat.previewUrl);
+    const prices = `MP3 R$ ${beat.mp3Price} · WAV R$ ${beat.wavPrice} · Exclusive R$ ${beat.exclusivePrice}`;
 
     return (
-        <div className="beat-row grid grid-cols-1 sm:grid-cols-[auto_1fr_auto] items-center gap-4 sm:gap-6 py-4 px-4 sm:px-5 rounded-xl border border-transparent transition-colors">
+        <article className="grid grid-cols-[auto_1fr] sm:grid-cols-[auto_1fr_auto] items-center gap-x-5 gap-y-4 py-6 border-b border-[var(--border-hair)]">
             <button
-                className="w-9 h-9 rounded-full flex items-center justify-center bg-[var(--bg-elevated)] border border-[var(--border-hair)] text-[var(--text-hi)] hover:border-[var(--violet-soft)] transition-colors flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
-                aria-label={hasPreview ? `${isPlaying ? "Pausar" : "Tocar"} ${beat.name}` : `Preview de ${beat.name} indisponível`}
-                onClick={() => toggle(beat.id, beat.previewUrl)}
+                type="button"
+                className="w-12 h-12 rounded-full flex items-center justify-center border border-[var(--border-strong)] text-[var(--color-text)] hover:border-[var(--color-accent)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                aria-label={hasPreview ? `${isPlaying ? "Pause" : "Play"} ${beat.name}` : `${beat.name}: preview coming soon`}
+                aria-pressed={hasPreview ? isPlaying : undefined}
+                onClick={() => toggle(beat.id, beat.previewUrl, beat.name)}
                 disabled={!hasPreview}
-                title={hasPreview ? undefined : "Preview em breve"}
+                title={hasPreview ? undefined : "Preview coming soon"}
             >
-                {isPlaying ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
+                {isPlaying ? <Pause size={16} /> : <Play size={16} className="ml-0.5" />}
             </button>
 
             <div className="min-w-0">
-                <p className="font-display text-[var(--text-hi)] tracking-wide">{beat.name}</p>
-                <p className="text-sm text-[var(--text-low)] mt-0.5">
-                    {beat.bpm} BPM · {beat.key} <span>— {beat.mood}</span>
+                <h2 className="font-display text-xl tracking-wide text-[var(--color-text)]">{beat.name}</h2>
+                <p className="text-sm text-[var(--color-text-secondary)] mt-1">
+                    {beat.bpm} BPM · {beat.key} · {beat.mood}
                 </p>
-            </div>
-
-            <div className="flex items-center gap-2 sm:justify-end flex-wrap">
-                {beat.purchaseUrl ? (
-                    // Quando purchaseUrl existir (BeatStars/Airbit/checkout próprio),
-                    // troque estes <button> por <a href={beat.purchaseUrl}>.
-                    <>
-                        <button className="price-chip text-xs sm:text-sm px-3 py-1.5 rounded-full">
-                            MP3 (R$ {beat.mp3Price})
-                        </button>
-                        <button className="price-chip text-xs sm:text-sm px-3 py-1.5 rounded-full">
-                            WAV (R$ {beat.wavPrice})
-                        </button>
-                        <button className="price-chip text-xs sm:text-sm px-3 py-1.5 rounded-full border-[var(--violet-soft)]/40">
-                            Exclusive (R$ {beat.exclusivePrice})
-                        </button>
-                    </>
-                ) : (
-                    // Sem checkout configurado ainda: leva para o contato com o
-                    // assunto "Buy a Beat" pré-selecionado, em vez de simular uma compra.
-                    <Link
-                        to={`/contact?subject=Buy a Beat&beat=${encodeURIComponent(beat.name)}`}
-                        className="price-chip text-xs sm:text-sm px-3 py-1.5 rounded-full"
-                    >
-                        MP3 R$ {beat.mp3Price} · WAV R$ {beat.wavPrice} · Exclusive R$ {beat.exclusivePrice} — Inquire
-                    </Link>
+                {beat.atmosphere && (
+                    <p className="text-sm text-[var(--color-text-faint)] mt-2 italic">{beat.atmosphere}</p>
                 )}
             </div>
-        </div>
+
+            <div className="col-span-2 sm:col-span-1 sm:text-right">
+                {beat.purchaseUrl ? (
+                    <a href={beat.purchaseUrl} target="_blank" rel="noreferrer" className="btn-secondary">
+                        Get this beat
+                    </a>
+                ) : (
+                    <Link
+                        to={`/contact?subject=${encodeURIComponent("Buy a Beat")}&beat=${encodeURIComponent(beat.name)}`}
+                        className="btn-secondary"
+                        aria-label={`Inquire about ${beat.name}. ${prices}`}
+                    >
+                        Inquire
+                    </Link>
+                )}
+                <p className="text-xs text-[var(--color-text-faint)] mt-2">{prices}</p>
+            </div>
+        </article>
     );
 }

@@ -1,14 +1,10 @@
 import SEO from "../components/Seo.jsx";
 import Reveal from "../components/Reval.jsx";
+import RoomEntry from "../components/Roomentry.jsx";
 import NewsletterForm from "../components/Newsletterform.jsx";
-
-// TODO: substituir por conteúdo real quando houver demos, unreleased
-// tracks, MIDI, samples, wallpapers ou project files para disponibilizar.
-const placeholderItems = [
-    { type: "Demo", title: "[ADD DEMO TITLE]" },
-    { type: "Experiment", title: "[ADD EXPERIMENT TITLE]" },
-    { type: "Behind the Music", title: "[ADD BTS CONTENT]" },
-];
+import SocialLinks from "../components/Sociallinks.jsx";
+import { roomEntries } from "../data/Room.js";
+import { roomCategories } from "../data/Site.js";
 
 export default function TheRoom() {
     return (
@@ -16,40 +12,65 @@ export default function TheRoom() {
             <SEO
                 path="/the-room"
                 title="The Room"
-                description="Demos, ideias inacabadas e experimentos de Drazyx."
+                description="Demos, unfinished ideas, sketches and experiments from Drazyx. The side of the music that isn't on Spotify."
             />
-            <div className="max-w-3xl mx-auto">
-                <Reveal as="div">
-                    <h1 className="font-display text-3xl sm:text-4xl text-[var(--text-hi)]">The Room</h1>
-                    <p className="mt-4 text-[var(--text-mid)] leading-relaxed">
-                        Unfinished things, late night ideas, sounds that almost became songs.
+            <div className="max-w-5xl mx-auto">
+                <Reveal as="header" className="max-w-2xl">
+                    <p className="eyebrow">you found it</p>
+                    <h1 className="page-title mt-3">The Room</h1>
+                    <p className="lede mt-5">
+                        Unfinished things, late-night ideas, sounds that almost became songs. Not on Spotify, not on a schedule.
                     </p>
                 </Reveal>
 
-                <Reveal as="div" className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-5">
-                    {placeholderItems.map((item, i) => (
-                        <div key={i} className="glass rounded-2xl p-6 aspect-square flex flex-col justify-between">
-                            <p className="text-xs tracking-wide text-[var(--violet-soft)]">{item.type}</p>
-                            <p className="text-sm text-[var(--text-low)]">{item.title}</p>
-                        </div>
-                    ))}
+                {/* The journal: newest first. Powered by data/Room.js (CMS-ready shape). */}
+                <Reveal as="section" className="mt-16 grid gap-8 md:grid-cols-[1fr_2fr]" aria-label="Entries">
+                    <h2 className="eyebrow">on the desk</h2>
+                    <div className="max-w-xl">
+                        {roomEntries.length > 0 ? (
+                            <div className="border-t border-[var(--border-hair)]">
+                                {roomEntries.map((e) => (
+                                    <RoomEntry key={e.id} entry={e} />
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-[var(--color-text-secondary)] leading-relaxed border-t border-[var(--border-hair)] pt-5">
+                                Nothing's been left on the desk yet. When something lands here, it'll show up first.
+                            </p>
+                        )}
+                    </div>
                 </Reveal>
 
-                <Reveal as="div" className="mt-16 glass rounded-2xl p-8">
-                    <h2 className="font-display text-xl text-[var(--text-hi)]">Join the Room</h2>
-                    <p className="mt-2 text-sm text-[var(--text-mid)] max-w-md">
-                        Get unreleased music, demos and occasional drops from Drazyx.
-                    </p>
-                    <div className="mt-5">
+                <Reveal as="section" className="mt-20 grid gap-8 md:grid-cols-[1fr_2fr]">
+                    <h2 className="eyebrow">what lives here</h2>
+                    <ul className="max-w-xl border-t border-[var(--border-hair)]">
+                        {roomCategories.map((c) => (
+                            <li key={c.id} className="grid sm:grid-cols-[8rem_1fr] gap-1 sm:gap-6 py-4 border-b border-[var(--border-hair)]">
+                                <span className="font-display text-[var(--color-text)]">{c.label}</span>
+                                <span className="text-sm text-[var(--color-text-secondary)] leading-relaxed">{c.blurb}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </Reveal>
+
+                <Reveal as="section" className="mt-20 grid gap-8 md:grid-cols-[1fr_2fr] bg-[var(--color-surface)] border border-[var(--border-hair)] rounded-lg p-8">
+                    <h2 className="eyebrow eyebrow-accent">stay in the room</h2>
+                    <div>
+                        <p className="font-display text-2xl text-[var(--color-text)] leading-snug max-w-md">
+                            Get things before they leave the room.
+                        </p>
+                        <p className="mt-3 mb-6 text-sm text-[var(--color-text-secondary)] max-w-md leading-relaxed">
+                            Previews, demos and the occasional note.
+                        </p>
                         <NewsletterForm />
                     </div>
                 </Reveal>
 
-                <Reveal as="div" className="mt-16">
-                    <h2 className="font-display text-lg text-[var(--text-hi)] mb-3">Free Downloads</h2>
-                    <p className="text-sm text-[var(--text-mid)]">
-                        [ADD FREE DOWNLOADS: free beats, MIDI, samples, wallpapers, presets ou project files]
-                    </p>
+                <Reveal as="section" className="mt-20 grid gap-8 md:grid-cols-[1fr_2fr]">
+                    <h2 className="eyebrow">or follow along</h2>
+                    <div className="max-w-xl">
+                        <SocialLinks only={["instagram", "youtube", "soundcloud", "tiktok"]} />
+                    </div>
                 </Reveal>
             </div>
         </div>

@@ -13,6 +13,7 @@ export const beats = [
         mp3Price: 40,
         wavPrice: 90,
         exclusivePrice: 350,
+        atmosphere: "", // TODO (opcional): 1–2 linhas de clima, ex. cena/hora/sensação
         previewUrl: "", // TODO: URL do preview em áudio
         coverUrl: "", // TODO: capa do beat
         purchaseUrl: "", // TODO: link de checkout (BeatStars/Airbit/Stripe/etc.)

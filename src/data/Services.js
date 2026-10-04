@@ -5,10 +5,10 @@ export const services = [
     {
         id: "custom-beats",
         title: "Custom Beats",
-        subtitle: "Produção Sob Encomenda",
+        subtitle: "Made to order",
         description:
-            "Uma instrumental construída do zero para a sua voz e a sua história — do primeiro loop à mixagem final.",
-        forWho: "Para artistas que querem um beat exclusivo, feito sob medida para o projeto.",
+            "An instrumental built from scratch around your voice and your story, from the first loop to the final mix.",
+        forWho: "For artists who want an exclusive beat made for their project.",
         included: [
             "[ADD O QUE ESTÁ INCLUÍDO]", // TODO: ex. nº de revisões, prazo, formato de entrega
         ],
@@ -17,10 +17,10 @@ export const services = [
     {
         id: "mix-master",
         title: "Mix & Master",
-        subtitle: "Mixagem & Masterização",
+        subtitle: "Mixing & mastering",
         description:
-            "Tratamento técnico e sonoro para sua faixa soar pronta em qualquer sistema — de fones baratos a sistemas de show.",
-        forWho: "Para artistas com a faixa gravada que precisam do acabamento final.",
+            "Technical and tonal finishing so your track holds up everywhere, from cheap earbuds to a club system.",
+        forWho: "For artists with a recorded track who need the final polish.",
         included: [
             "[ADD O QUE ESTÁ INCLUÍDO]", // TODO
         ],
@@ -29,10 +29,10 @@ export const services = [
     {
         id: "collaboration",
         title: "Collaboration",
-        subtitle: "Colaboração",
+        subtitle: "Working together",
         description:
-            "Produção e colaboração com outros artistas, do conceito à faixa finalizada.",
-        forWho: "Para artistas e produtores buscando parceria criativa.",
+            "Producing and writing with other artists, from the first idea to a finished track.",
+        forWho: "For artists and producers looking for a creative partner.",
         included: [
             "[ADD O QUE ESTÁ INCLUÍDO]", // TODO
         ],

@@ -1,73 +1,99 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 /**
- * Provider simples baseado em HTML5 Audio (sem backend, sem lib externa).
- * Garante que apenas um preview toque por vez em todo o site.
- * Uso: const { playingId, progress, toggle } = useAudioPlayer();
+ * HTML5 Audio provider (no backend, no extra lib). One preview plays at a
+ * time across the whole site; <MiniPlayer /> keeps it controllable while
+ * the visitor browses other pages.
+ * Use: const { playingId, progress, toggle } = useAudioPlayer();
  */
 const AudioPlayerContext = createContext(null);
 
 export function AudioPlayerProvider({ children }) {
     const audioRef = useRef(null);
-    const [playingId, setPlayingId] = useState(null);
+    const urlRef = useRef("");
+    const [current, setCurrent] = useState(null); // { id, title }
+    const [playing, setPlaying] = useState(false);
     const [progress, setProgress] = useState(0); // 0–1
     const [duration, setDuration] = useState(0);
 
     useEffect(() => {
         const audio = new Audio();
+        audio.preload = "none";
         audioRef.current = audio;
 
         const onTime = () => {
             if (audio.duration) setProgress(audio.currentTime / audio.duration);
         };
         const onLoaded = () => setDuration(audio.duration || 0);
+        const onPlay = () => setPlaying(true);
+        const onPause = () => setPlaying(false);
         const onEnd = () => {
-            setPlayingId(null);
+            setPlaying(false);
             setProgress(0);
+        };
+        const onError = () => {
+            setPlaying(false);
+            setCurrent(null);
         };
 
         audio.addEventListener("timeupdate", onTime);
         audio.addEventListener("loadedmetadata", onLoaded);
+        audio.addEventListener("play", onPlay);
+        audio.addEventListener("pause", onPause);
         audio.addEventListener("ended", onEnd);
+        audio.addEventListener("error", onError);
 
         return () => {
             audio.pause();
             audio.removeEventListener("timeupdate", onTime);
             audio.removeEventListener("loadedmetadata", onLoaded);
+            audio.removeEventListener("play", onPlay);
+            audio.removeEventListener("pause", onPause);
             audio.removeEventListener("ended", onEnd);
+            audio.removeEventListener("error", onError);
         };
     }, []);
 
-    const toggle = (id, url) => {
+    const toggle = (id, url, title = "") => {
         const audio = audioRef.current;
-        if (!audio || !url) return; // sem previewUrl ainda: não faz nada
+        if (!audio || !url) return; // no previewUrl yet: nothing to play
 
-        if (playingId === id) {
-            audio.pause();
-            setPlayingId(null);
+        if (current?.id === id) {
+            if (playing) audio.pause();
+            else audio.play().catch(() => setPlaying(false));
             return;
         }
 
-        if (audio.src !== url) {
+        if (urlRef.current !== url) {
             audio.src = url;
+            urlRef.current = url;
         }
-        audio
-            .play()
-            .then(() => setPlayingId(id))
-            .catch(() => setPlayingId(null));
+        setCurrent({ id, title });
+        setProgress(0);
+        audio.play().catch(() => setPlaying(false));
     };
 
+    const stop = () => {
+        const audio = audioRef.current;
+        if (audio) audio.pause();
+        urlRef.current = "";
+        setCurrent(null);
+        setProgress(0);
+    };
+
+    const playingId = playing && current ? current.id : null;
+
     return (
-        <AudioPlayerContext.Provider value={{ playingId, progress, duration, toggle }}>
+        <AudioPlayerContext.Provider value={{ current, playingId, progress, duration, toggle, stop }}>
             {children}
         </AudioPlayerContext.Provider>
     );
 }
 
-// O hook compartilha o contexto usado pelo provider neste módulo.
+// The hook shares the context created by the provider in this module.
 // eslint-disable-next-line react-refresh/only-export-components
 export function useAudioPlayer() {
     const ctx = useContext(AudioPlayerContext);
-    if (!ctx) throw new Error("useAudioPlayer deve ser usado dentro de AudioPlayerProvider");
+    if (!ctx) throw new Error("useAudioPlayer must be used inside AudioPlayerProvider");
     return ctx;
 }

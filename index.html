@@ -1,37 +1,43 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#070810" />
 
-  <!-- Título e descrição padrão — cada página sobrescreve via componente SEO -->
-  <title>Drazyx</title>
+  <!-- Fonts: preconnect + <link> (faster than a CSS @import) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- Defaults for crawlers that don't run JS. Each page overrides these via the SEO component. -->
+  <title>Drazyx — artist / producer</title>
   <meta name="description"
-    content="Site oficial de Drazyx, artista e produtor independente. Sons melancólicos entre trap, electronic e lo-fi. Ouça músicas, compre beats e conheça os serviços de produção." />
+    content="Drazyx is an independent artist and producer making atmospheric, melancholic music between trap, electronic and lo-fi. Listen, explore the catalog and step into The Room." />
   <link rel="canonical" href="https://drazyx.com/" />
-  <!-- TODO: confirmar o domínio final e ajustar todas as URLs canônicas/OG abaixo -->
+  <!-- TODO: confirm the final domain and update canonical/OG URLs here, in data/Site.js (or VITE_SITE_URL), sitemap.xml and robots.txt -->
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Drazyx" />
-  <meta property="og:title" content="Drazyx — Producer / Artist" />
+  <meta property="og:title" content="Drazyx — artist / producer" />
   <meta property="og:description"
-    content="Sons melancólicos entre trap, electronic e lo-fi. Ouça músicas, compre beats e conheça os serviços de produção de Drazyx." />
+    content="Independent artist and producer. Atmospheric, melancholic music between trap, electronic and lo-fi." />
   <meta property="og:url" content="https://drazyx.com/" />
-  <!-- TODO: adicionar imagem de Open Graph real (1200x630) -->
-  <meta property="og:image" content="/og-image.jpg" />
+  <!-- TODO: add a real Open Graph image (1200x630) at /public/og-image.jpg -->
+  <meta property="og:image" content="https://drazyx.com/og-image.jpg" />
 
-  <!-- Twitter Card -->
+  <!-- Twitter / X -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Drazyx — Producer / Artist" />
-  <meta name="twitter:description" content="Sons melancólicos entre trap, electronic e lo-fi." />
-  <meta name="twitter:image" content="/og-image.jpg" />
+  <meta name="twitter:title" content="Drazyx — artist / producer" />
+  <meta name="twitter:description" content="Atmospheric, melancholic music between trap, electronic and lo-fi." />
+  <meta name="twitter:image" content="https://drazyx.com/og-image.jpg" />
 
-  <!-- TODO: adicionar favicon real em /public/favicon.ico -->
-  <link rel="icon" href="/favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-  <!-- Dados estruturados: MusicGroup/Person -->
   <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -44,7 +50,8 @@
           "https://www.instagram.com/drazyxmusic/",
           "https://www.tiktok.com/@drazyxmusic",
           "https://www.youtube.com/@drazyxmusic",
-          "https://soundcloud.com/drazyxmusic"
+          "https://soundcloud.com/drazyxmusic",
+          "https://drazyx.bandcamp.com/"
         ]
       }
     </script>

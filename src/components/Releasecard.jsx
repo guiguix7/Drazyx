@@ -1,34 +1,23 @@
 import { Link } from "react-router-dom";
+import Artwork from "./Artwork.jsx";
+import { hasTitle, releaseMeta, releaseTitle } from "../lib/helpers.js";
 
-export default function ReleaseCard({ release }) {
+// Compact release tile: artwork first, then title and meta. Used in the
+// catalog grid and in "more music" on release pages.
+export default function ReleaseCard({ release, showMeta = true }) {
+    const title = releaseTitle(release);
+    const meta = releaseMeta(release);
     return (
-        <Link
-            to={`/music/${release.id}`}
-            className="card-hover glass rounded-2xl overflow-hidden block group"
-        >
-            <div className="aspect-square bg-gradient-to-br from-[#241338] to-[#0c0a14] relative flex items-center justify-center">
-                {release.coverUrl ? (
-                    <img
-                        src={release.coverUrl}
-                        alt={`Capa de ${release.title}`}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                    />
-                ) : (
-                    <span className="text-xs text-[var(--text-low)]">[ADD COVER]</span>
-                )}
-            </div>
-            <div className="p-5">
-                <h3 className="font-display text-lg text-[var(--text-hi)] leading-tight">
-                    {release.title}
-                </h3>
-                <p className="text-sm text-[var(--text-low)] mt-1">
-                    {release.type} · {release.year}
-                </p>
-                <span className="inline-block mt-3 text-sm text-[var(--violet-soft)] group-hover:underline">
-                    Listen
-                </span>
-            </div>
+        <Link to={`/music/${release.id}`} className="block group" aria-label={`Open ${title}`}>
+            <Artwork src={release.coverUrl} alt={`Cover art for ${title}`} className="card-hover" />
+            <h3
+                className={`font-display text-lg mt-4 transition-colors group-hover:text-[var(--color-accent-soft)] ${
+                    hasTitle(release) ? "text-[var(--color-text)]" : "text-[var(--color-text-faint)]"
+                }`}
+            >
+                {title}
+            </h3>
+            {showMeta && meta && <p className="eyebrow mt-1">{meta}</p>}
         </Link>
     );
 }

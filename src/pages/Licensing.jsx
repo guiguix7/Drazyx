@@ -8,48 +8,40 @@ export default function Licensing() {
         <div className="pt-32 pb-24 px-6">
             <SEO
                 path="/licensing"
-                title="License My Music"
-                description="Licencie músicas de Drazyx para vídeos, filmes, jogos e outros projetos."
+                title="Licensing"
+                description="License Drazyx music for videos, short films, games, content and commercial projects. Custom licensing available."
             />
-            <div className="max-w-3xl mx-auto">
-                <Reveal as="div">
-                    <h1 className="font-display text-3xl sm:text-4xl text-[var(--text-hi)]">
-                        License My Music
-                    </h1>
-                    <p className="mt-4 text-[var(--text-mid)] leading-relaxed">
-                        Músicas e instrumentais de Drazyx podem ser licenciadas para uso em outros projetos.
+            <div className="max-w-5xl mx-auto">
+                <Reveal as="header" className="mb-12">
+                    <p className="eyebrow">sync & use</p>
+                    <h1 className="page-title mt-3">Licensing</h1>
+                    <p className="lede mt-5">
+                        Drazyx's music and instrumentals can be licensed for use in other people's projects.
                     </p>
                 </Reveal>
 
-                <Reveal as="div" className="mt-12">
-                    <h2 className="font-display text-lg text-[var(--text-hi)] mb-4">O que pode ser licenciado</h2>
-                    <div className="flex flex-wrap gap-2.5">
+                <Reveal as="section" className="grid gap-6 md:grid-cols-[1fr_2fr] py-10 border-t border-[var(--border-hair)]">
+                    <h2 className="eyebrow">what it's for</h2>
+                    <ul className="flex flex-wrap gap-2 max-w-xl">
                         {licensingUseCases.map((use) => (
-                            <span
-                                key={use}
-                                className="glass rounded-full px-4 py-1.5 text-sm text-[var(--text-mid)]"
-                            >
-                                {use}
-                            </span>
+                            <li key={use} className="chip">{use}</li>
                         ))}
-                    </div>
+                    </ul>
                 </Reveal>
 
-                <Reveal as="div" className="mt-12">
-                    <h2 className="font-display text-lg text-[var(--text-hi)] mb-3">Como funciona</h2>
-                    <ol className="space-y-2 text-sm text-[var(--text-mid)] list-decimal list-inside">
-                        <li>Você envia os detalhes do projeto e onde a música será usada.</li>
-                        <li>Drazyx retorna com os termos e valores de licenciamento.</li>
-                        <li>Após aprovação, a licença e o arquivo são entregues.</li>
+                <Reveal as="section" className="grid gap-6 md:grid-cols-[1fr_2fr] py-10 border-t border-[var(--border-hair)]">
+                    <h2 className="eyebrow">how it works</h2>
+                    <ol className="max-w-xl space-y-4 text-[var(--color-text-secondary)] leading-relaxed">
+                        <li><span className="font-display text-[var(--color-accent-soft)] mr-3">01</span>You send the details of your project and where the music will be used.</li>
+                        <li><span className="font-display text-[var(--color-accent-soft)] mr-3">02</span>Drazyx replies with terms and pricing.</li>
+                        <li><span className="font-display text-[var(--color-accent-soft)] mr-3">03</span>Once it's agreed, you get the license and the files.</li>
                     </ol>
                 </Reveal>
 
-                <Reveal as="div" className="mt-12">
-                    <Link
-                        to="/contact?subject=Licensing"
-                        className="btn-primary inline-block px-6 py-3 rounded-full text-sm font-medium"
-                    >
-                        Request a License
+                <Reveal as="div" className="pt-10 border-t border-[var(--border-hair)] flex flex-wrap items-center gap-x-8 gap-y-4">
+                    <Link to="/contact?subject=Licensing" className="btn-primary">Request a license</Link>
+                    <Link to="/beats" className="link-arrow text-sm">
+                        Browse beats <span aria-hidden="true">→</span>
                     </Link>
                 </Reveal>
             </div>

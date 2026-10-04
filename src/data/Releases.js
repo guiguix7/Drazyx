@@ -17,8 +17,11 @@ export const releases = [
         youtubeUrl: "", // TODO
         soundcloudUrl: "", // TODO
         appleMusicUrl: "", // TODO
+        bandcampUrl: "", // TODO: link direto do álbum no Bandcamp
+        genre: "", // TODO (opcional): ex. "Trap / Electronic"
+        tracks: [], // TODO: lista real de faixas, ex. [{ title: "...", duration: "3:12" }]
         description: "[ADD PROJECT DESCRIPTION]", // TODO
-        behindTheMusic: "", // TODO (opcional)
+        behindTheMusic: "", // TODO (opcional): nota do artista / conceito
         credits: {
             artist: "Drazyx",
             producer: "Drazyx",
@@ -48,6 +51,9 @@ export const releases = [
         youtubeUrl: "", // TODO
         soundcloudUrl: "", // TODO
         appleMusicUrl: "", // TODO
+        bandcampUrl: "", // TODO
+        genre: "", // TODO (opcional)
+        tracks: [], // TODO
         description: "[ADD PROJECT DESCRIPTION]", // TODO
         behindTheMusic: "", // TODO
         credits: {

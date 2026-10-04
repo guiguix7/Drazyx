@@ -7,19 +7,19 @@ import { contactSubjects } from "../data/Contact.js";
 import { contactEmail } from "../data/Sociallinks.js";
 
 /**
- * TODO: conectar a um serviço real de envio de formulário (ex: Formspree,
- * Resend, um endpoint próprio). Esta é a única função que precisa mudar
- * quando o backend existir.
+ * TODO: connect a real form service (Formspree, Resend, your own endpoint).
+ * This is the only function that needs to change. Until then the form says so
+ * and points to the email address — it never reports a fake success.
  */
 async function sendContactMessage() {
-    throw new Error("Envio de formulário ainda não integrado a um backend.");
-    // Exemplo de integração futura:
+    throw new Error("Contact form backend not configured.");
+    // Future integration:
     // const res = await fetch("/api/contact", {
     //   method: "POST",
     //   headers: { "Content-Type": "application/json" },
     //   body: JSON.stringify(payload),
     // });
-    // if (!res.ok) throw new Error("Falha ao enviar.");
+    // if (!res.ok) throw new Error("Send failed.");
 }
 
 export default function Contact() {
@@ -31,90 +31,62 @@ export default function Contact() {
         name: "",
         email: "",
         subject: contactSubjects.includes(presetSubject) ? presetSubject : "",
-        message: presetBeat ? `Tenho interesse no beat "${presetBeat}".` : "",
+        message: presetBeat ? `I'm interested in the beat "${presetBeat}".` : "",
     });
     const [status, setStatus] = useState("idle"); // idle | submitting | success | error
-    const [errorMsg, setErrorMsg] = useState("");
 
     const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setStatus("submitting");
-        setErrorMsg("");
         try {
             await sendContactMessage(form);
             setStatus("success");
         } catch {
             setStatus("error");
-            setErrorMsg(
-                "Este formulário ainda não está conectado a um backend de envio — a interface está pronta para integração. Por enquanto, escreva para " +
-                contactEmail +
-                "."
-            );
         }
     };
+
+    const mailto = `mailto:${contactEmail}?subject=${encodeURIComponent(form.subject || "Hello")}&body=${encodeURIComponent(form.message)}`;
 
     return (
         <div className="pt-32 pb-24 px-6">
             <SEO
                 path="/contact"
                 title="Contact"
-                description="Fale com Drazyx sobre beats, produção, mixagem, licenciamento ou colaboração."
+                description="Get in touch with Drazyx about beats, production, mixing, licensing or collaboration."
             />
-            <div className="max-w-2xl mx-auto">
-                <Reveal as="div" className="mb-10">
-                    <h1 className="font-display text-3xl sm:text-4xl text-[var(--text-hi)]">Contact</h1>
-                    <p className="mt-3 text-[var(--text-mid)]">
-                        Para parcerias, licenciamento ou orçamentos —{" "}
-                        <a href={`mailto:${contactEmail}`} className="text-[var(--text-hi)] hover:underline">
+            <div className="max-w-3xl mx-auto">
+                <Reveal as="header" className="mb-12">
+                    <p className="eyebrow">say hi</p>
+                    <h1 className="page-title mt-3">Contact</h1>
+                    <p className="lede mt-5">
+                        For beats, projects, licensing or just to say something. You can also write directly to{" "}
+                        <a href={`mailto:${contactEmail}`} className="text-[var(--color-text)] underline underline-offset-4 decoration-[var(--border-strong)] hover:decoration-[var(--color-accent)]">
                             {contactEmail}
                         </a>
+                        .
                     </p>
                 </Reveal>
 
                 {status === "success" ? (
-                    <Reveal as="div" className="glass rounded-2xl p-8 text-center">
-                        <p className="text-[var(--text-hi)]">Mensagem pronta — interface de envio ok.</p>
-                        <p className="text-sm text-[var(--text-low)] mt-2">
-                            Assim que o backend de envio for conectado, sua mensagem será entregue automaticamente.
-                        </p>
+                    <Reveal as="div" className="surface rounded-lg p-8" role="status">
+                        <p className="text-[var(--color-text)]">Message sent. Thanks for writing.</p>
                     </Reveal>
                 ) : (
-                    <Reveal as="form" onSubmit={handleSubmit} className="glass rounded-2xl p-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-5" noValidate>
+                    <Reveal as="form" onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div className="flex flex-col gap-2">
-                            <label className="text-xs text-[var(--text-low)]" htmlFor="name">Name</label>
-                            <input
-                                id="name"
-                                type="text"
-                                required
-                                placeholder="Your name"
-                                className="field rounded-lg px-3.5 py-2.5 text-sm"
-                                value={form.name}
-                                onChange={update("name")}
-                            />
+                            <label className="eyebrow" htmlFor="name">Name</label>
+                            <input id="name" type="text" required autoComplete="name" placeholder="Your name" className="field rounded px-3.5 py-2.5 text-sm" value={form.name} onChange={update("name")} />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <label className="text-xs text-[var(--text-low)]" htmlFor="email">Email</label>
-                            <input
-                                id="email"
-                                type="email"
-                                required
-                                placeholder="you@email.com"
-                                className="field rounded-lg px-3.5 py-2.5 text-sm"
-                                value={form.email}
-                                onChange={update("email")}
-                            />
+                            <label className="eyebrow" htmlFor="email">Email</label>
+                            <input id="email" type="email" required autoComplete="email" placeholder="you@email.com" className="field rounded px-3.5 py-2.5 text-sm" value={form.email} onChange={update("email")} />
                         </div>
                         <div className="flex flex-col gap-2 sm:col-span-2">
-                            <label className="text-xs text-[var(--text-low)]" htmlFor="subject">Subject</label>
-                            <select
-                                id="subject"
-                                required
-                                className="field rounded-lg px-3.5 py-2.5 text-sm appearance-none"
-                                value={form.subject}
-                                onChange={update("subject")}
-                            >
+                            <label className="eyebrow" htmlFor="subject">Subject</label>
+                            <select id="subject" required className="field rounded px-3.5 py-2.5 text-sm" value={form.subject} onChange={update("subject")}>
                                 <option value="" disabled>Select a subject</option>
                                 {contactSubjects.map((s) => (
                                     <option key={s} value={s}>{s}</option>
@@ -122,32 +94,23 @@ export default function Contact() {
                             </select>
                         </div>
                         <div className="flex flex-col gap-2 sm:col-span-2">
-                            <label className="text-xs text-[var(--text-low)]" htmlFor="message">Message</label>
-                            <textarea
-                                id="message"
-                                required
-                                rows={5}
-                                minLength={10}
-                                placeholder="Tell me about the project..."
-                                className="field rounded-lg px-3.5 py-2.5 text-sm resize-none"
-                                value={form.message}
-                                onChange={update("message")}
-                            />
+                            <label className="eyebrow" htmlFor="message">Message</label>
+                            <textarea id="message" required rows={6} minLength={10} placeholder="Tell me about it…" className="field rounded px-3.5 py-2.5 text-sm resize-y" value={form.message} onChange={update("message")} />
                         </div>
-                        <div className="sm:col-span-2 flex flex-col gap-3">
+
+                        <div className="sm:col-span-2 flex flex-col gap-4">
                             {status === "error" && (
-                                <p className="text-xs text-[var(--text-low)]" role="alert">{errorMsg}</p>
-                            )}
-                            <div className="flex items-center justify-between">
-                                <p className="text-xs text-[var(--text-low)]">
-                                    {status === "submitting" ? "Enviando..." : "Resposta em até 2 dias úteis."}
+                                <p className="text-sm text-[var(--color-text-secondary)]" role="alert">
+                                    The form isn't connected yet, so nothing was sent.{" "}
+                                    <a href={mailto} className="text-[var(--color-accent-soft)] underline underline-offset-4">
+                                        Open this message in your email app
+                                    </a>{" "}
+                                    instead.
                                 </p>
-                                <button
-                                    type="submit"
-                                    disabled={status === "submitting"}
-                                    className="btn-primary rounded-full px-6 py-2.5 text-sm font-medium inline-flex items-center gap-2"
-                                >
-                                    <Send size={15} /> Send
+                            )}
+                            <div>
+                                <button type="submit" disabled={status === "submitting"} className="btn-primary">
+                                    <Send size={14} /> {status === "submitting" ? "Sending…" : "Send"}
                                 </button>
                             </div>
                         </div>

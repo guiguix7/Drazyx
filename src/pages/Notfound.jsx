@@ -3,13 +3,15 @@ import SEO from "../components/Seo.jsx";
 
 export default function NotFound() {
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center px-6 text-center">
-            <SEO title="Página não encontrada" />
-            <h1 className="font-display text-3xl text-[var(--text-hi)]">404</h1>
-            <p className="mt-3 text-[var(--text-mid)]">Essa página não existe.</p>
-            <Link to="/" className="mt-6 btn-secondary px-5 py-2.5 rounded-full text-sm">
-                Voltar para a Home
-            </Link>
+        <div className="min-h-[80vh] flex flex-col items-start justify-center px-6 max-w-5xl mx-auto">
+            <SEO title="Page not found" path="/404" noindex />
+            <p className="eyebrow">404</p>
+            <h1 className="page-title mt-3">Wrong door.</h1>
+            <p className="lede mt-4">There's nothing in this room. Try another one.</p>
+            <div className="mt-8 flex flex-wrap gap-4">
+                <Link to="/" className="btn-primary">Back home</Link>
+                <Link to="/music" className="btn-secondary">Music</Link>
+            </div>
         </div>
     );
 }

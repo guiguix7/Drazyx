@@ -8,12 +8,11 @@ export const contactSubjects = [
 ];
 
 export const licensingUseCases = [
-    "YouTube",
-    "Filmes",
-    "Curtas",
-    "Jogos",
-    "Projetos independentes",
-    "Conteúdo digital",
-    "Publicidade",
-    "Redes sociais",
+    "YouTube & video content",
+    "Short films & films",
+    "Games",
+    "Independent projects",
+    "Social media content",
+    "Advertising & commercial use",
+    "Custom licensing",
 ];
