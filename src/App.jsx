@@ -50,6 +50,17 @@ export default function App() {
                             <Route path="/contact" element={<Contact />} />
                             <Route path="/support" element={<Support />} />
                             <Route path="*" element={<Notfound />} />
+                            {/* Public Routes stay exactly as they are */}
+                            <Route path="/" element={<Home />} />
+
+                            {/* Admin Routes */}
+                            <Route path="/admin/login" element={<Login />} />
+                            <Route element={<ProtectedRoute />}>
+                                <Route element={<AdminLayout />}>
+                                    <Route path="/admin" element={<Dashboard />} />
+                                    {/* We will add /admin/releases, etc. here next */}
+                                </Route>
+                            </Route>
                         </Routes>
                     </Suspense>
                 </main>
