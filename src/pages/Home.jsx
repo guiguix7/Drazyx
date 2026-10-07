@@ -233,7 +233,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="min-w-0 lg:py-4">
-                        <SectionHeader number="05" label="selected release" />
+                        <SectionHeader number="04" label="latest release" />
                         <h2 className={`font-display text-[clamp(2.5rem,5vw,4.5rem)] leading-[0.95] tracking-[-0.035em] mt-4 break-words ${hasTitle(latestRelease) ? 'text-[var(--color-text)]' : 'text-[var(--color-text-faint)]'}`}>
                             {releaseTitle(latestRelease)}
                         </h2>
@@ -251,7 +251,7 @@ export default function Home() {
 
             <section className="home-section px-6 py-24">
                 <Reveal as="div" className="max-w-6xl mx-auto grid gap-10 lg:grid-cols-[0.85fr_1.7fr]">
-                    <SectionHeader number="04" label="the room" />
+                    <SectionHeader number="05" label="the room" />
                     <div>
                         <p className="eyebrow mb-3 inline-flex items-center gap-2">
                             <span className="pixel-dot is-live" aria-hidden="true" />
@@ -270,7 +270,7 @@ export default function Home() {
 
             <section className="home-section border-t border-[var(--border-hair)] px-6 py-24">
                 <Reveal as="div" className="max-w-6xl mx-auto grid gap-10 lg:grid-cols-[0.85fr_1.7fr]">
-                    <SectionHeader number="05" label="where drazyx exists" />
+                    <SectionHeader number="06" label="where drazyx exists" />
                     <div className="max-w-2xl">
                         <div className="flex items-center gap-3 mb-6">
                             <RoomGlyph mark="cursor" label="pick a door" />
