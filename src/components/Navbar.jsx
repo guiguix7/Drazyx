@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
+import PixelMark from "./Pixelmark.jsx";
 
-// Primary nav: an artist's site, not an agency's. Commercial pages live
-// under "More" so they never compete with the music.
 const primaryLinks = [
     { to: "/music", label: "Music" },
     { to: "/the-room", label: "The Room" },
@@ -20,28 +19,27 @@ const moreLinks = [
 
 export default function Navbar() {
     const { pathname } = useLocation();
-    // Menus remember the path they were opened on, so they close by themselves
-    // on any navigation (including browser back) without an effect.
     const [menuAt, setMenuAt] = useState(null);
     const [moreAt, setMoreAt] = useState(null);
     const [scrolled, setScrolled] = useState(false);
     const moreRef = useRef(null);
     const open = menuAt === pathname;
     const moreOpen = moreAt === pathname;
+    const moreActive = moreLinks.some((link) => pathname === link.to || pathname.startsWith(`${link.to}/`));
 
     useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 24);
+        const onScroll = () => setScrolled(window.scrollY > 20);
         onScroll();
         window.addEventListener("scroll", onScroll, { passive: true });
         return () => window.removeEventListener("scroll", onScroll);
     }, []);
 
     useEffect(() => {
-        const onClick = (e) => {
-            if (moreRef.current && !moreRef.current.contains(e.target)) setMoreAt(null);
+        const onClick = (event) => {
+            if (moreRef.current && !moreRef.current.contains(event.target)) setMoreAt(null);
         };
-        const onKey = (e) => {
-            if (e.key === "Escape") {
+        const onKey = (event) => {
+            if (event.key === "Escape") {
                 setMoreAt(null);
                 setMenuAt(null);
             }
@@ -62,45 +60,54 @@ export default function Navbar() {
     }, [open]);
 
     return (
-        <header
-            className={`fixed top-0 inset-x-0 z-50 transition-colors duration-300 ${
-                scrolled || open ? "bg-[var(--color-bg)]/90 backdrop-blur-sm border-b border-[var(--border-hair)]" : "bg-transparent"
-            }`}
-        >
+        <header className={`site-nav fixed top-0 inset-x-0 z-50 ${scrolled ? "is-scrolled" : ""} ${open ? "is-open" : ""}`}>
             <nav className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="Main">
-                <Link to="/" className="font-display text-lg tracking-[0.18em] text-[var(--color-text)]" aria-label="Drazyx — home">
+                <Link to="/" className="inline-flex items-center gap-2 font-display text-[0.95rem] tracking-[0.2em] text-[var(--color-text)]" aria-label="Drazyx — home">
+                    <span className="nav-active-dot" aria-hidden="true" />
                     DRAZYX
                 </Link>
 
-                <div className="hidden md:flex items-center gap-8 text-sm">
-                    {primaryLinks.map((l) => (
-                        <NavLink key={l.to} to={l.to} className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}>
-                            {l.label}
+                <div className="hidden md:flex items-center gap-7 text-sm">
+                    {primaryLinks.map((link) => (
+                        <NavLink
+                            key={link.to}
+                            to={link.to}
+                            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+                        >
+                            {({ isActive }) => (
+                                <>
+                                    {isActive && <span className="nav-active-dot" aria-hidden="true" />}
+                                    {link.label}
+                                </>
+                            )}
                         </NavLink>
                     ))}
 
                     <div className="relative" ref={moreRef}>
                         <button
                             type="button"
-                            className="nav-link inline-flex items-center gap-1"
+                            className={`nav-link ${moreActive ? "active" : ""}`}
                             onClick={() => setMoreAt(moreOpen ? null : pathname)}
                             aria-expanded={moreOpen}
                             aria-controls="more-menu"
                         >
-                            More <ChevronDown size={14} aria-hidden="true" />
+                            {moreActive && <span className="nav-active-dot" aria-hidden="true" />}
+                            More
+                            <ChevronDown size={14} aria-hidden="true" className={moreOpen ? "rotate-180 transition-transform" : "transition-transform"} />
                         </button>
                         {moreOpen && (
-                            <ul id="more-menu" className="absolute top-full right-0 mt-3 w-48 surface rounded-lg py-2 text-sm">
-                                {moreLinks.map((l) => (
-                                    <li key={l.to}>
-                                        <NavLink
-                                            to={l.to}
-                                            className="block px-4 py-2.5 text-[var(--color-text-secondary)] hover:text-[var(--color-text)] transition-colors"
-                                        >
-                                            {l.label}
-                                        </NavLink>
-                                    </li>
-                                ))}
+                            <ul id="more-menu" className="nav-more-menu absolute top-full right-0 mt-2 rounded-[var(--radius-medium)]">
+                                {moreLinks.map((link) => {
+                                    const active = pathname === link.to || pathname.startsWith(`${link.to}/`);
+                                    return (
+                                        <li key={link.to}>
+                                            <NavLink to={link.to} className={`nav-more-item ${active ? "active" : ""}`}>
+                                                <span>{link.label}</span>
+                                                {active && <PixelMark mark="star" size={10} aria-hidden="true" />}
+                                            </NavLink>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         )}
                     </div>
@@ -119,37 +126,32 @@ export default function Navbar() {
             </nav>
 
             {open && (
-                <div
-                    id="mobile-menu"
-                    className="md:hidden fixed inset-x-0 top-16 bottom-0 bg-[var(--color-bg)] px-6 pt-8 pb-10 flex flex-col overflow-y-auto"
-                >
+                <div id="mobile-menu" className="mobile-menu md:hidden fixed inset-x-0 top-16 bottom-0 px-6 pt-7 pb-10 overflow-y-auto">
+                    <div className="flex items-center gap-2 mb-8">
+                        <span className="pixel-dot is-live" aria-hidden="true" />
+                        <span className="terminal-label">the room is online</span>
+                    </div>
                     <ul className="flex flex-col">
-                        {primaryLinks.map((l) => (
-                            <li key={l.to}>
+                        {primaryLinks.map((link) => (
+                            <li key={link.to}>
                                 <NavLink
-                                    to={l.to}
-                                    className={({ isActive }) =>
-                                        `block py-4 font-display text-3xl border-b border-[var(--border-hair)] ${
-                                            isActive ? "text-[var(--color-accent-soft)]" : "text-[var(--color-text)]"
-                                        }`
-                                    }
+                                    to={link.to}
+                                    className={({ isActive }) => `flex items-center gap-3 py-4 font-display text-3xl border-b border-[var(--border-hair)] ${isActive ? "text-[var(--color-accent-soft)]" : "text-[var(--color-text)]"}`}
                                 >
-                                    {l.label}
+                                    {({ isActive }) => <>{isActive && <span className="nav-active-dot" aria-hidden="true" />}{link.label}</>}
                                 </NavLink>
                             </li>
                         ))}
                     </ul>
-                    <p className="eyebrow mt-10 mb-2">More</p>
-                    <ul className="grid grid-cols-2">
-                        {moreLinks.map((l) => (
-                            <li key={l.to}>
+                    <p className="eyebrow mt-9 mb-3">More</p>
+                    <ul className="grid grid-cols-2 border-t border-[var(--border-hair)]">
+                        {moreLinks.map((link) => (
+                            <li key={link.to}>
                                 <NavLink
-                                    to={l.to}
-                                    className={({ isActive }) =>
-                                        `block py-3 text-base ${isActive ? "text-[var(--color-accent-soft)]" : "text-[var(--color-text-secondary)]"}`
-                                    }
+                                    to={link.to}
+                                    className={({ isActive }) => `flex items-center min-h-[52px] border-b border-[var(--border-hair)] text-base ${isActive ? "text-[var(--color-accent-soft)]" : "text-[var(--color-text-secondary)]"}`}
                                 >
-                                    {l.label}
+                                    {link.label}
                                 </NavLink>
                             </li>
                         ))}

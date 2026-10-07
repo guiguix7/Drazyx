@@ -1,26 +1,30 @@
-import { roomCategories } from "../data/Site.js";
+import { roomCategories } from '../data/Site.js';
+import PixelMark from './Pixelmark.jsx';
+import { safeUrl } from '../lib/helpers.js';
 
-// One journal-style entry. Shape matches the future `room_posts` table.
 export default function RoomEntry({ entry }) {
-    const category = roomCategories.find((c) => c.id === entry.category)?.label ?? entry.category;
-    const body = (
-        <div className="grid grid-cols-[2.5rem_1fr] gap-4 py-5 border-b border-[var(--border-hair)]">
-            <span className="font-display text-sm text-[var(--color-text-faint)] pt-0.5">{entry.number}</span>
-            <div>
-                <p className="eyebrow eyebrow-accent">
-                    {category}
-                    {entry.date && <span className="text-[var(--color-text-faint)]"> · {entry.date}</span>}
-                </p>
-                <p className="text-[var(--color-text)] mt-1.5 text-lg leading-snug">{entry.title}</p>
-                {entry.note && <p className="text-sm text-[var(--color-text-secondary)] mt-1.5">{entry.note}</p>}
+    const category = roomCategories.find((item) => item.id === entry.category)?.label ?? entry.category;
+    const content = (
+        <div className="room-entry group">
+            <div className="font-display text-sm text-[var(--color-text-faint)] pt-0.5">{entry.number}</div>
+            <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                    <p className="eyebrow eyebrow-accent">{category}</p>
+                    {entry.date && <span className="terminal-label">{entry.date}</span>}
+                </div>
+                <div className="flex items-start justify-between gap-4 mt-1.5">
+                    <p className="text-[var(--color-text)] text-lg leading-snug">{entry.title}</p>
+                    {entry.href && <PixelMark mark="cursor" size={13} className="mt-1 text-[var(--color-text-faint)] group-hover:text-[var(--color-accent-soft)]" />}
+                </div>
+                {entry.note && <p className="text-sm text-[var(--color-text-secondary)] mt-1.5 leading-relaxed">{entry.note}</p>}
             </div>
         </div>
     );
-    return entry.href ? (
-        <a href={entry.href} className="block hover:bg-[var(--color-surface)] transition-colors -mx-3 px-3">
-            {body}
+
+    const safeHref = safeUrl(entry.href);
+    return safeHref ? (
+        <a href={safeHref} target={/^https:\/\//.test(safeHref) ? '_blank' : undefined} rel={/^https:\/\//.test(safeHref) ? 'noreferrer' : undefined} className="block">
+            {content}
         </a>
-    ) : (
-        body
-    );
+    ) : content;
 }

@@ -1,54 +1,73 @@
-import { Link } from "react-router-dom";
-import { Play, Pause } from "lucide-react";
-import { useAudioPlayer } from "./Audioplayer.jsx";
+import { Link } from 'react-router-dom';
+import { ExternalLink, Play, Pause, MessageCircle } from 'lucide-react';
+import { useAudioPlayer } from './Audioplayer.jsx';
+import Artwork from './Artwork.jsx';
+import { safeUrl } from '../lib/helpers.js';
 
-// A beat as a small piece of the Drazyx world, not a marketplace listing.
-// Expects a row from listPublicBeats(): { id, title, bpm, musical_key, mood, description,
-// previewUrl, purchaseUrl, inquiryUrl, licenses: [{ name, price, purchaseUrl }] }
+function BeatCover({ beat }) {
+    if (beat.artworkUrl) {
+        return <Artwork src={beat.artworkUrl} alt={`Artwork for ${beat.title}`} className="beat-cover" />;
+    }
+    return (
+        <div className="beat-cover beat-cover--empty" aria-hidden="true">
+            <span>{beat.title}<br />{beat.bpm ? `${beat.bpm} BPM` : 'instrumental'}</span>
+        </div>
+    );
+}
+
 export default function BeatRow({ beat }) {
     const { playingId, toggle } = useAudioPlayer();
     const isPlaying = playingId === beat.id;
     const hasPreview = Boolean(beat.previewUrl);
-    const licenses = (beat.licenses ?? []).filter((l) => l.price !== null);
-    const primaryHref = beat.purchaseUrl || null;
+    const licenses = (beat.licenses ?? []).filter((license) => license.price !== null);
+    const primaryHref = safeUrl(beat.purchaseUrl);
+    const inquiryHref = safeUrl(beat.inquiryUrl) || `/contact?subject=Beat&beat=${encodeURIComponent(beat.title)}`;
 
     return (
-        <article className="grid grid-cols-[auto_1fr] sm:grid-cols-[auto_1fr_auto] items-center gap-x-5 gap-y-4 py-6 border-b border-[var(--border-hair)]">
-            <button
-                type="button"
-                className="w-12 h-12 rounded-full flex items-center justify-center border border-[var(--border-strong)] text-[var(--color-text)] hover:border-[var(--color-accent)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-                aria-label={hasPreview ? `${isPlaying ? "Pause" : "Play"} ${beat.title}` : `${beat.title}: no preview yet`}
-                aria-pressed={hasPreview ? isPlaying : undefined}
-                onClick={() => toggle(beat.id, beat.previewUrl, beat.title)}
-                disabled={!hasPreview}
-                title={hasPreview ? undefined : "No preview yet"}
-            >
-                {isPlaying ? <Pause size={16} /> : <Play size={16} className="ml-0.5" />}
-            </button>
+        <article className="beat-row group">
+            <div className="beat-row__main">
+                <button
+                    type="button"
+                    className="beat-play"
+                    aria-label={hasPreview ? `${isPlaying ? 'Pause' : 'Play'} ${beat.title}` : `${beat.title}: preview not available`}
+                    aria-pressed={hasPreview ? isPlaying : undefined}
+                    onClick={() => toggle(beat.id, beat.previewUrl, beat.title)}
+                    disabled={!hasPreview}
+                    title={hasPreview ? undefined : 'Preview not available yet'}
+                >
+                    {isPlaying ? <Pause size={16} /> : <Play size={16} className="ml-0.5" />}
+                </button>
 
-            <div className="min-w-0">
-                <h2 className="font-display text-xl tracking-wide text-[var(--color-text)]">{beat.title}</h2>
-                <p className="text-sm text-[var(--color-text-secondary)] mt-1">
-                    {[beat.bpm && `${beat.bpm} BPM`, beat.musical_key, beat.mood].filter(Boolean).join(" · ")}
-                </p>
-                {beat.description && (
-                    <p className="text-sm text-[var(--color-text-faint)] mt-2 italic">{beat.description}</p>
-                )}
-                {licenses.length > 0 && (
-                    <p className="text-sm text-[var(--color-text-secondary)] mt-2">
-                        {licenses.map((l) => `${l.name} ${l.priceLabel}`).join(" · ")}
+                <BeatCover beat={beat} />
+
+                <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <h2 className="font-display text-xl tracking-tight text-[var(--color-text)] truncate">{beat.title}</h2>
+                        {beat.featured && <span className="eyebrow eyebrow-accent">featured</span>}
+                    </div>
+                    <p className="text-sm text-[var(--color-text-secondary)] mt-1.5">
+                        {[beat.bpm && `${beat.bpm} BPM`, beat.musical_key, beat.mood, beat.genre].filter(Boolean).join(' · ')}
                     </p>
-                )}
+                    {beat.description && <p className="text-sm text-[var(--color-text-faint)] mt-2 leading-relaxed">{beat.description}</p>}
+                    {licenses.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mt-3">
+                            {licenses.map((license) => (
+                                <span key={license.name} className="price-chip">{license.name} <strong className="font-medium text-[var(--color-text)]">{license.priceLabel}</strong></span>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
 
-            <div className="col-span-2 sm:col-span-1 sm:text-right">
+            <div className="flex sm:flex-col items-center sm:items-end justify-between gap-2">
                 {primaryHref ? (
-                    <a href={primaryHref} target="_blank" rel="noreferrer" className="btn-secondary">
-                        Get this beat
+                    <a href={primaryHref} target="_blank" rel="noreferrer" className="btn-secondary platform-button platform-button--bandcamp">
+                        <span>License</span><ExternalLink size={12} aria-hidden="true" />
                     </a>
                 ) : (
-                    <Link to={beat.inquiryUrl || "/contact"} className="btn-secondary">
-                        Ask about this beat
+                    <Link to={inquiryHref} className="btn-secondary">
+                        <MessageCircle size={14} />
+                        <span>Ask about it</span>
                     </Link>
                 )}
             </div>

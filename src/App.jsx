@@ -13,7 +13,6 @@ import { Dashboard } from "./pages/admin/Dashboard";
 import BeatsList from "./admin/beats/BeatsList";
 import BeatEditor from "./admin/beats/BeatEditor";
 
-// Code splitting: everything except the landing page loads on demand.
 const Music = lazy(() => import("./pages/Music.jsx"));
 const Release = lazy(() => import("./pages/Release.jsx"));
 const Beats = lazy(() => import("./pages/Beats.jsx"));
@@ -25,7 +24,6 @@ const Contact = lazy(() => import("./pages/Contact.jsx"));
 const Support = lazy(() => import("./pages/Support.jsx"));
 const Notfound = lazy(() => import("./pages/Notfound.jsx"));
 
-// Scroll to top on navigation, but leave in-page #anchors alone.
 function ScrollManager() {
     const { pathname, hash } = useLocation();
     useEffect(() => {
@@ -36,14 +34,16 @@ function ScrollManager() {
 
 export default function App() {
     const { pathname } = useLocation();
+    const isAdmin = pathname.startsWith("/admin");
+
     return (
         <AudioPlayerProvider>
-            <a href="#main" className="skip-link">Skip to content</a>
+            {!isAdmin && <a href="#main" className="skip-link">Skip to content</a>}
             <ScrollManager />
             <div className="min-h-screen flex flex-col">
-                <Navbar />
-                <main id="main" key={pathname} className="page-enter flex-1">
-                    <Suspense fallback={<div className="min-h-[60vh]" aria-busy="true" />}>
+                {!isAdmin && <Navbar />}
+                <main id="main" key={pathname} className={`${!isAdmin ? "page-enter" : ""} flex-1`}>
+                    <Suspense fallback={!isAdmin ? <div className="min-h-[60vh]" aria-busy="true" /> : <div className="min-h-screen" aria-busy="true" />}>
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/music" element={<Music />} />
@@ -57,7 +57,6 @@ export default function App() {
                             <Route path="/support" element={<Support />} />
                             <Route path="*" element={<Notfound />} />
 
-                            {/* Admin Routes */}
                             <Route path="/admin/login" element={<Login />} />
                             <Route element={<ProtectedRoute />}>
                                 <Route element={<AdminLayout />}>
@@ -65,15 +64,14 @@ export default function App() {
                                     <Route path="/admin/beats" element={<BeatsList />} />
                                     <Route path="/admin/beats/new" element={<BeatEditor />} />
                                     <Route path="/admin/beats/:id" element={<BeatEditor />} />
-                                    {/* Releases, Room, services and the rest follow the same pattern */}
                                 </Route>
                             </Route>
                         </Routes>
                     </Suspense>
                 </main>
-                <Footer />
+                {!isAdmin && <Footer />}
             </div>
-            <MiniPlayer />
+            {!isAdmin && <MiniPlayer />}
             <Analytics />
         </AudioPlayerProvider>
     );

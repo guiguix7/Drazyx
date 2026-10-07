@@ -22,7 +22,8 @@ function setMeta(name, content, attr = "name") {
 }
 
 export default function SEO({ title, description, path = "/", image, type = "website", jsonLd, noindex = false }) {
-    const ld = jsonLd ? JSON.stringify(jsonLd) : "";
+    // Escape the '<' character so JSON-LD cannot terminate its own script tag.
+    const ld = jsonLd ? JSON.stringify(jsonLd).replace(/</g, '\\u003c') : "";
 
     useEffect(() => {
         const fullTitle = title ? `${title} — ${siteName}` : `${siteName} — artist / producer`;
