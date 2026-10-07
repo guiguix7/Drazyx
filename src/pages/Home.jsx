@@ -10,7 +10,7 @@ import SocialLinks from '../components/Sociallinks.jsx';
 import RoomPreview from '../components/Roompreview.jsx';
 import NightClock from '../components/Nightclock.jsx';
 import RoomGlyph from '../components/Roomglyph.jsx';
-import { latestRelease, releases } from '../data/Releases.js';
+import { artistFeaturedTrack, featuredRelease, latestRelease, releases } from '../data/Releases.js';
 import { socialLinks } from '../data/Sociallinks.js';
 import { tagline } from '../data/Site.js';
 import { clean, hasTitle, releaseMeta, releaseTitle } from '../lib/helpers.js';
@@ -20,6 +20,8 @@ const others = releases.filter((release) => release.id !== latestRelease.id);
 export default function Home() {
     const heroRef = useRef(null);
     const pointerRef = useRef(null);
+    const albumGenre = clean(featuredRelease.genre);
+    const trackGenre = clean(artistFeaturedTrack?.genre) || albumGenre;
 
     useEffect(() => {
         const hero = heroRef.current;
@@ -118,33 +120,46 @@ export default function Home() {
                 </div>
             </section>
 
-            <section id="listen" className="home-section px-6 py-24 scroll-mt-6">
-                <Reveal as="div" className="max-w-6xl mx-auto grid gap-10 lg:grid-cols-[minmax(0,500px)_1fr] lg:gap-16 items-end">
-                    <div className="artwork-glow">
-                        <div className="record-object">
+            <section id="listen" className="home-section px-6 py-20 sm:py-24 scroll-mt-6">
+                <Reveal as="div" className="max-w-6xl mx-auto grid gap-12 lg:grid-cols-[minmax(0,500px)_minmax(0,1fr)] lg:gap-16 lg:items-center">
+                    <div className="artwork-glow min-w-0">
+                        <div className="record-object aspect-square">
                             <Artwork
-                                src={latestRelease.coverUrl}
-                                alt={`Cover art for ${releaseTitle(latestRelease)}`}
+                                src={featuredRelease.coverUrl}
+                                alt={`Cover art for ${releaseTitle(featuredRelease)}`}
                                 label="release cover not added yet"
                                 className="w-full"
                                 priority
                             />
                         </div>
                     </div>
-                    <div className="lg:pb-2">
+                    <div className="min-w-0 lg:py-4">
                         <SectionHeader number="01" label="selected release" />
-                        <h2 className={`font-display text-4xl sm:text-5xl leading-[0.95] tracking-[-0.035em] mt-4 ${hasTitle(latestRelease) ? 'text-[var(--color-text)]' : 'text-[var(--color-text-faint)]'}`}>
-                            {releaseTitle(latestRelease)}
+                        <h2 className={`font-display text-[clamp(2.5rem,5vw,4.5rem)] leading-[0.95] tracking-[-0.035em] mt-4 break-words ${hasTitle(featuredRelease) ? 'text-[var(--color-text)]' : 'text-[var(--color-text-faint)]'}`}>
+                            {releaseTitle(featuredRelease)}
                         </h2>
-                        {releaseMeta(latestRelease) && <p className="eyebrow mt-3">{releaseMeta(latestRelease)}</p>}
-                        {clean(latestRelease.description) && <p className="mt-5 text-[var(--color-text-secondary)] leading-relaxed max-w-md">{latestRelease.description}</p>}
-                        <div className="mt-7">
-                            <ListenButtons release={latestRelease} />
+                        {releaseMeta(featuredRelease) && <p className="eyebrow mt-3">{releaseMeta(featuredRelease)}</p>}
+                        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
+                            {albumGenre && <p className="eyebrow">Album: {albumGenre}</p>}
+                            {trackGenre && <p className="eyebrow">Track: {trackGenre}</p>}
                         </div>
-                        <Link to={`/music/${latestRelease.id}`} className="link-arrow text-sm inline-flex items-center mt-6">
+                        {artistFeaturedTrack && (
+                            <a
+                                href={artistFeaturedTrack.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="link-arrow text-sm inline-flex items-center mt-5"
+                            >
+                                Track: {artistFeaturedTrack.title} <span aria-hidden="true">↗</span>
+                            </a>
+                        )}
+                        {clean(featuredRelease.description) && <p className="mt-5 text-[var(--color-text-secondary)] leading-relaxed max-w-md">{featuredRelease.description}</p>}
+                        <div className="mt-7">
+                            <ListenButtons release={featuredRelease} />
+                        </div>
+                        <Link to={`/music/${featuredRelease.id}`} className="link-arrow text-sm inline-flex items-center mt-6">
                             Open the release page <span aria-hidden="true">→</span>
                         </Link>
-                    <iframe data-testid="embed-iframe" src="https://open.spotify.com/embed/album/5kt0DOgATil9AwgBa1Ktaf?utm_source=generator&si=c98b73b55fef4fbc" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     </div>
                 </Reveal>
             </section>
@@ -175,22 +190,61 @@ export default function Home() {
             )}
 
             <section className="home-section border-y border-[var(--border-hair)] px-6 py-24">
-                <Reveal as="div" className="max-w-6xl mx-auto grid gap-10 lg:grid-cols-[0.85fr_1.7fr]">
-                    <SectionHeader number="03" label="who is drazyx?" />
-                    <div className="max-w-2xl">
-                        <div className="identity-note pixel-corners">
-                            <div className="flex items-center justify-between gap-4 border-b border-[var(--border-hair)] pb-3">
-                                <RoomGlyph mark="headphones" label="artist / producer" />
-                                <span className="terminal-label">local / notes</span>
-                            </div>
-                            <p className="font-display text-2xl sm:text-3xl leading-snug text-[var(--color-text)] mt-6">
-                                An independent artist and producer from Brazil, making music that sits somewhere between trap, electronic and lo-fi.
-                            </p>
-                            <p className="mt-6 text-[var(--color-text-secondary)] leading-relaxed max-w-xl">
-                                It keeps going back to the same places: late nights, nostalgia, games, stories and the worlds you imagine yourself into.
-                            </p>
-                            <Link to="/about" className="link-arrow text-sm inline-flex mt-6">More about Drazyx <span aria-hidden="true">→</span></Link>
+                <Reveal as="div" className="max-w-6xl mx-auto grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,500px)] lg:grid-rows-[auto_1fr] lg:gap-x-16 lg:gap-y-4 lg:items-stretch">
+                    <div className="lg:col-start-1 lg:row-start-1">
+                        <SectionHeader number="03" label="who is drazyx?" />
+                    </div>
+                    <div className="identity-note pixel-corners lg:col-start-1 lg:row-start-2">
+                        <div className="flex items-center justify-between gap-4 border-b border-[var(--border-hair)] pb-3">
+                            <RoomGlyph mark="headphones" label="artist / producer" />
+                            <span className="terminal-label">local / notes</span>
                         </div>
+                        <p className="font-display text-2xl sm:text-3xl leading-snug text-[var(--color-text)] mt-6">
+                            An independent artist and producer from Brazil, making music that sits somewhere between trap, electronic and lo-fi.
+                        </p>
+                        <p className="mt-6 text-[var(--color-text-secondary)] leading-relaxed max-w-xl">
+                            It keeps going back to the same places: late nights, nostalgia, games, stories and the worlds you imagine yourself into.
+                        </p>
+                        <Link to="/about" className="link-arrow text-sm inline-flex mt-6">More about Drazyx <span aria-hidden="true">→</span></Link>
+                    </div>
+                    <div className="artwork-glow min-w-0 lg:col-start-2 lg:row-start-2">
+                        <div className="record-object h-full min-h-[20rem]">
+                            <Artwork
+                                src="https://f4.bcbits.com/img/0045261838_20.jpg"
+                                alt="Profile artwork for Drazyx"
+                                className="w-full h-full"
+                            />
+                        </div>
+                    </div>
+                </Reveal>
+            </section>
+
+            <section id="listen" className="home-section px-6 py-20 sm:py-24 scroll-mt-6">
+                <Reveal as="div" className="max-w-6xl mx-auto grid gap-12 lg:grid-cols-[minmax(0,500px)_minmax(0,1fr)] lg:gap-16 lg:items-center">
+                    <div className="artwork-glow min-w-0">
+                        <div className="record-object aspect-square">
+                            <Artwork
+                                src={latestRelease.coverUrl}
+                                alt={`Cover art for ${releaseTitle(latestRelease)}`}
+                                label="release cover not added yet"
+                                className="w-full"
+                                priority
+                            />
+                        </div>
+                    </div>
+                    <div className="min-w-0 lg:py-4">
+                        <SectionHeader number="05" label="selected release" />
+                        <h2 className={`font-display text-[clamp(2.5rem,5vw,4.5rem)] leading-[0.95] tracking-[-0.035em] mt-4 break-words ${hasTitle(latestRelease) ? 'text-[var(--color-text)]' : 'text-[var(--color-text-faint)]'}`}>
+                            {releaseTitle(latestRelease)}
+                        </h2>
+                        {releaseMeta(latestRelease) && <p className="eyebrow mt-3">{releaseMeta(latestRelease)}</p>}
+                        {clean(latestRelease.description) && <p className="mt-5 text-[var(--color-text-secondary)] leading-relaxed max-w-md">{latestRelease.description}</p>}
+                        <div className="mt-7">
+                            <ListenButtons release={latestRelease} />
+                        </div>
+                        <Link to={`/music/${latestRelease.id}`} className="link-arrow text-sm inline-flex items-center mt-6">
+                            Open the release page <span aria-hidden="true">→</span>
+                        </Link>
                     </div>
                 </Reveal>
             </section>

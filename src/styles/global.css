@@ -1002,6 +1002,13 @@ textarea.field {
     border: 0;
 }
 
+.spotify-embed-frame--album {
+    height: 352px;
+    border-color: rgba(184, 77, 255, 0.2);
+    border-radius: var(--radius-medium);
+    background: #12122b;
+}
+
 /* ---------- motion ---------- */
 .reveal {
     opacity: 0;

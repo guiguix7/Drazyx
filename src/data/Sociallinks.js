@@ -22,7 +22,7 @@ export const socialLinks = {
 export const spotifyArtistEmbedUrl =
     "https://open.spotify.com/embed/artist/71gVcrLVY10LjtZWvUWLQU?utm_source=generator&si=f9297101e32548b6";
 
-export const contactEmail = "contact@drazyx.com";
+export const contactEmail = "drazyxmusic@gmail.com";
 
 // TODO: add real links once these accounts exist
 export const supportLinks = {

@@ -3,9 +3,9 @@ import SEO from '../components/Seo.jsx';
 import Reveal from '../components/Reval.jsx';
 import PageShell from '../components/Pageshell.jsx';
 import RoomGlyph from '../components/Roomglyph.jsx';
-import PixelMark from '../components/Pixelmark.jsx';
 import { about, genres } from '../data/About.js';
 import { isTodo } from '../lib/helpers.js';
+import Artwork from '../components/Artwork.jsx';
 
 function Block({ number, label, text, children, marker }) {
     return (
@@ -47,13 +47,17 @@ export default function About() {
             />
 
             <Reveal as="section" className="about-intro pixel-corners mb-10">
-                <div className="about-intro__grid">
-                    <div className="about-intro__object">
+                <div className="about-intro__grid flex items-stretch">
+                    <div className="about-intro__object relative aspect-square shrink-0 flex items-center justify-center overflow-hidden">
                         <div className="about-orbit" aria-hidden="true" />
-                        <PixelMark mark="heart" size={46} className="text-[var(--color-accent-soft)]" />
-                        <span className="terminal-label mt-3">artist / producer</span>
+                        <Artwork
+                            src="https://f4.bcbits.com/img/0045261838_20.jpg"
+                            alt="Profile artwork for Drazyx"
+                            label=""
+                            className="relative z-[1] object-contain w-0 h-0 min-w-full min-h-full max-w-full max-h-full"
+                        />
                     </div>
-                    <div>
+                    <div className="flex-1 p-6">
                         <p className="eyebrow eyebrow-accent">who / at a glance</p>
                         <p className="font-display text-2xl sm:text-3xl mt-3 leading-snug max-w-xl">Music moves around, but the emotional center stays close to atmosphere, nighttime, nostalgia and imagined worlds.</p>
                         <div className="flex flex-wrap gap-2 mt-6" aria-label="Genres">
