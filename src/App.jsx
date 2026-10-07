@@ -6,6 +6,12 @@ import Footer from "./components/Footer.jsx";
 import MiniPlayer from "./components/Miniplayer.jsx";
 import { AudioPlayerProvider } from "./components/Audioplayer.jsx";
 import Home from "./pages/Home.jsx";
+import { ProtectedRoute } from "./components/admin/ProtectedRoute";
+import { Login } from "./pages/admin/Login";
+import { AdminLayout } from "./pages/admin/AdminLayout";
+import { Dashboard } from "./pages/admin/Dashboard";
+import BeatsList from "./admin/beats/BeatsList";
+import BeatEditor from "./admin/beats/BeatEditor";
 
 // Code splitting: everything except the landing page loads on demand.
 const Music = lazy(() => import("./pages/Music.jsx"));
@@ -50,15 +56,16 @@ export default function App() {
                             <Route path="/contact" element={<Contact />} />
                             <Route path="/support" element={<Support />} />
                             <Route path="*" element={<Notfound />} />
-                            {/* Public Routes stay exactly as they are */}
-                            <Route path="/" element={<Home />} />
 
                             {/* Admin Routes */}
                             <Route path="/admin/login" element={<Login />} />
                             <Route element={<ProtectedRoute />}>
                                 <Route element={<AdminLayout />}>
                                     <Route path="/admin" element={<Dashboard />} />
-                                    {/* We will add /admin/releases, etc. here next */}
+                                    <Route path="/admin/beats" element={<BeatsList />} />
+                                    <Route path="/admin/beats/new" element={<BeatEditor />} />
+                                    <Route path="/admin/beats/:id" element={<BeatEditor />} />
+                                    {/* Releases, Room, services and the rest follow the same pattern */}
                                 </Route>
                             </Route>
                         </Routes>

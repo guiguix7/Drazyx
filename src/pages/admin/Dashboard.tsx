@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase.ts';
+import { supabase } from '../../lib/supabase';
 
 export const Dashboard = () => {
     const [stats, setStats] = useState({ releases: 0, beats: 0, room: 0 });
