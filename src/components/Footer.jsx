@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { socialLinks, contactEmail } from "../data/Sociallinks.js";
 import { tagline } from "../data/Site.js";
 import SocialLinks from "./Sociallinks.jsx";
+import PixelMark from "./Pixelmark.jsx";
 
 const linkClass = "py-2 hover:text-[var(--color-text)] transition-colors";
 
@@ -11,7 +12,10 @@ export default function Footer() {
             <div className="max-w-6xl mx-auto flex flex-col gap-10">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-8">
                     <div className="max-w-xs">
-                        <p className="font-display text-sm tracking-[0.18em] text-[var(--color-text)]">DRAZYX</p>
+                        <p className="font-display text-sm tracking-[0.18em] text-[var(--color-text)] inline-flex items-center gap-2">
+                            <PixelMark mark="star" size={12} className="text-[var(--color-text-faint)]" />
+                            DRAZYX
+                        </p>
                         <p className="text-sm text-[var(--color-text-secondary)] mt-2 leading-relaxed">{tagline}</p>
                     </div>
                     <nav aria-label="Social">

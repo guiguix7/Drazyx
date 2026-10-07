@@ -12,10 +12,12 @@
     --color-surface-2: #18131d;
     --color-text: #f2edf5;
     --color-text-secondary: #a99eae;
-    --color-text-faint: #7d7385; /* >= 4.5:1 on --color-bg */
+    --color-text-faint: #7d7385;
+    /* >= 4.5:1 on --color-bg */
     --color-accent: #b84dff;
     --color-accent-soft: #c988ff;
-    --color-lamp: #ffb878; /* the one warm light in the room; used very sparingly */
+    --color-lamp: #ffb878;
+    /* the one warm light in the room; used very sparingly */
 
     --border-hair: rgba(242, 237, 245, 0.09);
     --border-strong: rgba(242, 237, 245, 0.18);
@@ -144,6 +146,25 @@ body {
         radial-gradient(40rem 30rem at 70% 70%, rgba(184, 77, 255, 0.07), transparent 70%);
 }
 
+/* Pointer-reactive light: a second, much smaller glow that drifts toward the
+   cursor on top of the fixed hero-light. JS only sets --mx/--my (0-100); the
+   gradient itself stays modest so it reads as "the room noticing you" rather
+   than a spotlight. Disabled entirely on touch / reduced-motion in JS. */
+.hero-light-pointer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    background: radial-gradient(22rem 22rem at var(--mx, 50%) var(--my, 40%),
+            rgba(184, 77, 255, 0.07),
+            transparent 70%);
+}
+
+.hero-light-pointer.is-active {
+    opacity: 1;
+}
+
 .grain {
     position: relative;
 }
@@ -172,6 +193,59 @@ body {
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+/* Artwork lit from behind by its own cover — light, not decoration. Put an
+   .artwork inside .artwork-glow; the glow col­or is set per-instance via
+   --glow (falls back to the accent) and only shows on hover/focus. */
+.artwork-glow {
+    position: relative;
+    isolation: isolate;
+}
+
+.artwork-glow::before {
+    content: "";
+    position: absolute;
+    inset: 6%;
+    z-index: -1;
+    background: var(--glow, var(--color-accent));
+    filter: blur(40px);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.artwork-glow:hover::before,
+.artwork-glow:focus-within::before {
+    opacity: 0.22;
+}
+
+/* a small square status light + blink, used sparingly ("on the desk", "WIP") */
+.pixel-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--color-accent-soft);
+    flex: none;
+}
+
+.pixel-dot.is-live {
+    animation: pixelBlink 2.4s steps(1, end) infinite;
+}
+
+@keyframes pixelBlink {
+
+    0%,
+    60% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 0.25;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 .artwork-empty {
@@ -222,7 +296,8 @@ body {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    min-height: 44px; /* touch target */
+    min-height: 44px;
+    /* touch target */
     padding: 0.65rem 1.4rem;
     border-radius: 4px;
     font-family: var(--font-display);
@@ -423,5 +498,13 @@ a.chip:focus-visible {
     .reveal {
         opacity: 1;
         transform: none;
+    }
+
+    .pixel-dot.is-live {
+        animation: none;
+    }
+
+    .hero-light-pointer {
+        display: none;
     }
 }

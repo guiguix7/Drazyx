@@ -1,5 +1,7 @@
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import SEO from "../components/Seo.jsx";
+import PixelMark from "../components/Pixelmark.jsx";
 import Reveal from "../components/Reval.jsx";
 import Artwork from "../components/Artwork.jsx";
 import SectionHeader from "../components/Sectionheader.jsx";
@@ -15,6 +17,48 @@ import { clean, hasTitle, releaseMeta, releaseTitle } from "../lib/helpers.js";
 const others = releases.filter((r) => r.id !== latestRelease.id);
 
 export default function Home() {
+    // A very small "the room notices you" touch: the hero glow drifts a few
+    // percent toward the pointer. Opt-in only — skipped entirely for touch
+    // devices and for prefers-reduced-motion, where the fixed hero-light
+    // (already in the markup) is the complete, static experience.
+    const heroRef = useRef(null);
+    const pointerRef = useRef(null);
+
+    useEffect(() => {
+        const hero = heroRef.current;
+        const pointer = pointerRef.current;
+        if (!hero || !pointer) return;
+
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+        if (reduceMotion || coarsePointer) return;
+
+        let frame = null;
+        const onMove = (e) => {
+            if (frame) return;
+            frame = requestAnimationFrame(() => {
+                const rect = hero.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                pointer.style.setProperty("--mx", `${x}%`);
+                pointer.style.setProperty("--my", `${y}%`);
+                frame = null;
+            });
+        };
+        const onEnter = () => pointer.classList.add("is-active");
+        const onLeave = () => pointer.classList.remove("is-active");
+
+        hero.addEventListener("pointermove", onMove);
+        hero.addEventListener("pointerenter", onEnter);
+        hero.addEventListener("pointerleave", onLeave);
+        return () => {
+            hero.removeEventListener("pointermove", onMove);
+            hero.removeEventListener("pointerenter", onEnter);
+            hero.removeEventListener("pointerleave", onLeave);
+            if (frame) cancelAnimationFrame(frame);
+        };
+    }, []);
+
     return (
         <>
             <SEO
@@ -29,33 +73,39 @@ export default function Home() {
             />
 
             {/* HERO — the name is the loudest thing. One next action: listen. */}
-            <section className="relative min-h-[100svh] flex flex-col justify-end px-6 pt-28 pb-14 sm:pb-20 overflow-hidden grain">
+            <section
+                ref={heroRef}
+                className="relative min-h-[100svh] flex flex-col justify-end px-6 pt-28 pb-14 sm:pb-20 overflow-hidden grain"
+            >
                 <div className="hero-light" aria-hidden="true" />
+                <div ref={pointerRef} className="hero-light-pointer" aria-hidden="true" />
+
+                {/* small pixel accents — the room, not the content */}
+                <PixelMark mark="moon" size={14} className="hidden sm:block absolute top-24 right-10 text-[var(--color-text-faint)] opacity-60" />
+                <PixelMark mark="window" size={20} className="hidden lg:block absolute bottom-28 right-16 text-[var(--color-text-faint)] opacity-30" />
+
                 <div className="relative max-w-6xl mx-auto w-full">
-                    <p className="eyebrow mb-4">Artist / Producer</p>
+                    <p className="eyebrow mb-4 inline-flex items-center gap-2">
+                        <span className="pixel-dot is-live" aria-hidden="true" />
+                        Artist / Producer
+                    </p>
                     <h1 className="font-display font-semibold text-[clamp(3.75rem,18vw,11.5rem)] leading-[0.85] tracking-[-0.04em] text-[var(--color-text)]">
                         DRAZYX
                     </h1>
                     <p className="mt-6 text-lg sm:text-xl text-[var(--color-text-secondary)] max-w-md leading-snug">
                         {tagline}
+                        <span className="inline-block w-[2px] h-[1em] align-middle ml-1 bg-[var(--color-text-faint)] motion-safe:animate-pulse" aria-hidden="true" />
                     </p>
 
                     <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
                         <a href="#latest" className="btn-primary">Listen</a>
-                        <div>
-                            <a href=""><img src="../img/spotify.png" alt="" /></a>
-                        </div>
-                        <div>
-                            <a href=""><img src="../img/soundcloud.png" alt="" /></a>
-                        </div>
-                        <div>
-                            <a href=""><img src="../img/music.png" alt="" /></a>
-                        </div>
+                        <SocialLinks variant="icons" only={["spotify", "soundcloud", "youtube"]} />
                     </div>
 
-                    <div className="mt-14 sm:mt-20">
-                        <h3 className="text-purple-900">Trap ● Electronic ● Lo-fi</h3> // Estilizar isso de forma mais elegante
-                        < NightClock />
+                    <div className="mt-14 sm:mt-20 flex flex-wrap items-center gap-x-6 gap-y-3">
+                        <p className="eyebrow eyebrow-accent">Trap ● Electronic ● Lo-fi</p>
+                        <span className="hidden sm:block w-px h-3 bg-[var(--border-strong)]" aria-hidden="true" />
+                        <NightClock />
                     </div>
                 </div>
             </section>
@@ -63,11 +113,14 @@ export default function Home() {
             {/* 01 — LATEST */}
             <section id="latest" className="px-6 py-24 scroll-mt-8">
                 <Reveal as="div" className="max-w-6xl mx-auto grid gap-10 lg:grid-cols-[minmax(0,440px)_1fr] lg:gap-16 items-end">
-                    <Artwork
-                        src={latestRelease.coverUrl}
-                        alt={`Cover art for ${releaseTitle(latestRelease)}`}
-                        className="w-full max-w-[440px]"
-                    />
+                    <div className="artwork-glow">
+                        <Artwork
+                            src={latestRelease.coverUrl}
+                            alt={`Cover art for ${releaseTitle(latestRelease)}`}
+                            className="w-full max-w-[440px]"
+                            priority
+                        />
+                    </div>
                     <div>
                         <SectionHeader number="01" label="latest" />
                         <h2 className={`font-display text-4xl sm:text-5xl leading-none tracking-tight mt-4 ${hasTitle(latestRelease) ? "text-[var(--color-text)]" : "text-[var(--color-text-faint)]"}`}>
@@ -133,7 +186,7 @@ export default function Home() {
                         <Link to="/about" className="link-arrow text-sm inline-block mt-6">
                             More about Drazyx <span aria-hidden="true">→</span>
                         </Link>
-                        <iframe className="mt-10" data-testid="embed-iframe" src="https://open.spotify.com/embed/artist/71gVcrLVY10LjtZWvUWLQU?utm_source=generator&theme=0&si=9892b56c6a704a82" width="100%" height="467" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                        <iframe className="mt-10" data-testid="embed-iframe" src="https://open.spotify.com/embed/artist/71gVcrLVY10LjtZWvUWLQU?utm_source=generator&theme=0&si=9892b56c6a704a82" width="100%" height="467" frameBorder="0" allowFullScreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     </div>
                 </Reveal>
             </section>
@@ -143,6 +196,10 @@ export default function Home() {
                 <Reveal as="div" className="max-w-6xl mx-auto grid gap-8 md:grid-cols-[1fr_2fr]">
                     <SectionHeader number="04" label="the room" />
                     <div>
+                        <p className="eyebrow mb-3 inline-flex items-center gap-2">
+                            <span className="pixel-dot is-live" aria-hidden="true" />
+                            on the desk, unfinished
+                        </p>
                         <h2 className="font-display text-3xl sm:text-4xl text-[var(--color-text)] leading-tight">
                             There's more here.
                         </h2>
