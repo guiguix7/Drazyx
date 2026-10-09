@@ -25,7 +25,7 @@ export const Dashboard = () => {
                     <p className="text-[#A99EAE] mt-2">Here is what is happening today.</p>
                 </div>
                 <div className="flex gap-3">
-                    <Link to="/admin/releases/new" className="bg-[#B84DFF] hover:bg-opacity-80 text-white px-4 py-2 rounded text-sm font-medium transition">+ New Release</Link>
+                    <Link to="/music" className="bg-[#18131D] hover:bg-[#11101A] border border-[#A99EAE] text-[#F2EDF5] px-4 py-2 rounded text-sm font-medium transition">View Music</Link>
                     <Link to="/admin/beats/new" className="bg-[#18131D] hover:bg-[#11101A] border border-[#A99EAE] text-[#F2EDF5] px-4 py-2 rounded text-sm font-medium transition">+ New Beat</Link>
                 </div>
             </header>

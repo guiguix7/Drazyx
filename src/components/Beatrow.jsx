@@ -21,7 +21,7 @@ export default function BeatRow({ beat }) {
     const hasPreview = Boolean(beat.previewUrl);
     const licenses = (beat.licenses ?? []).filter((license) => license.price !== null);
     const primaryHref = safeUrl(beat.purchaseUrl);
-    const inquiryHref = safeUrl(beat.inquiryUrl) || `/contact?subject=Beat&beat=${encodeURIComponent(beat.title)}`;
+    const inquiryHref = safeUrl(beat.inquiryUrl) || `/contact?subject=Buy%20a%20Beat&beat=${encodeURIComponent(beat.title)}`;
 
     return (
         <article className="beat-row group">

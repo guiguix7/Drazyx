@@ -16,7 +16,7 @@ lets the artist manage content without editing source code.
 | Admin: Beats (list, editor, prices, preview upload) | Built |
 | Admin: Releases, Tracks, The Room, Services, Messages, Subscribers, Media, Homepage, Settings, SEO | Not built yet (menu links lead to "not found") |
 | Contact form and newsletter writing to the database | Not wired yet |
-| Database migrations and RLS | Written in `supabase/migrations/`. Not yet run against every environment. |
+| Database migrations and RLS | Written in `supabase/migrations/` (including security hardening in `007_security_hardening.sql`). Not yet run against every environment. |
 
 Items marked "not built" are listed in the roadmap so nobody assumes they work.
 

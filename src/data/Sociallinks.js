@@ -41,3 +41,5 @@ export const platforms = [
     { id: "tiktok", label: "TikTok", role: "discovery", href: socialLinks.tiktok },
     { id: "bandcamp", label: "Bandcamp", role: "own the music", href: socialLinks.bandcamp },
 ];
+
+export const profilePhotoUrl = "https://f4.bcbits.com/img/0045261838_20.jpg"; // TODO: replace with a real photo of the artist 

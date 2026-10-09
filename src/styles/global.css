@@ -745,6 +745,13 @@ a.chip:focus-visible {
     padding: 1rem;
 }
 
+.room-mailbox {
+    max-width: 32rem;
+    padding: 1rem;
+    border: 1px dashed var(--border-strong);
+    background: rgba(24, 19, 29, 0.28);
+}
+
 .room-empty-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1051,6 +1058,10 @@ textarea.field {
 }
 
 @media (max-width: 640px) {
+    .row-link {
+        gap: 0.75rem;
+    }
+
     .page-shell {
         padding: 6.5rem 1.1rem 5rem;
     }

@@ -60,7 +60,7 @@ export default function Beats() {
                 <div className="room-file__bar"><span>beat shop / listening desk</span><span>preview → license → project</span></div>
                 <div className="room-file__body flex flex-col sm:flex-row sm:items-end justify-between gap-6">
                     <div><RoomGlyph mark="headphones" label="curated instrumentals" /><p className="text-[var(--color-text-secondary)] text-sm leading-relaxed max-w-xl mt-3">Each row is built around the real CMS record. Missing artwork, preview audio or checkout links stay visibly missing instead of being fabricated.</p></div>
-                    <Link to="/contact?subject=Beat" className="btn-secondary shrink-0">Ask about a beat <span aria-hidden="true">↗</span></Link>
+                    <Link to="/contact?subject=Buy%20a%20Beat" className="btn-secondary shrink-0">Ask about a beat <span aria-hidden="true">↗</span></Link>
                 </div>
             </Reveal>
 

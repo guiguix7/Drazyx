@@ -8,9 +8,8 @@ export const siteName = "Drazyx";
 
 export const tagline = "music from somewhere between the internet, midnight and memory.";
 
-// TODO: adicionar /public/og-image.jpg (1200x630). Até lá, as páginas ficam
-// sem imagem de preview ao compartilhar. Capas de release usam o coverUrl.
-export const defaultOgImage = "/og-image.jpg";
+// Default social preview uses a real catalog artwork until a dedicated site OG asset is supplied. Release pages override it with their own cover.
+export const defaultOgImage = "https://f4.bcbits.com/img/a587586965_10.jpg";
 
 // What lives in The Room. These are categories of content, not fake entries.
 export const roomCategories = [

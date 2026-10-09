@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- TODO: gerar dinamicamente quando houver releases/beats suficientes para justificar um script de build -->
+<!-- Static release routes are listed while the catalog remains file-backed. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://drazyx.com/</loc></url>
   <url><loc>https://drazyx.com/music</loc></url>
   <url><loc>https://drazyx.com/beats</loc></url>
+  <url><loc>https://drazyx.com/music/5</loc></url>
+  <url><loc>https://drazyx.com/music/4</loc></url>
+  <url><loc>https://drazyx.com/music/3</loc></url>
+  <url><loc>https://drazyx.com/music/2</loc></url>
+  <url><loc>https://drazyx.com/music/1</loc></url>
   <url><loc>https://drazyx.com/production</loc></url>
   <url><loc>https://drazyx.com/licensing</loc></url>
   <url><loc>https://drazyx.com/the-room</loc></url>

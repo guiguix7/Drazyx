@@ -14,14 +14,14 @@ import { artistFeaturedTrack, featuredRelease, latestRelease, releases } from '.
 import { socialLinks } from '../data/Sociallinks.js';
 import { tagline } from '../data/Site.js';
 import { clean, hasTitle, releaseMeta, releaseTitle } from '../lib/helpers.js';
+import { profilePhotoUrl } from '../data/Sociallinks.js';
 
-const others = releases.filter((release) => release.id !== latestRelease.id);
+const catalogPreview = releases.filter((release) => release.id !== featuredRelease.id);
 
 export default function Home() {
     const heroRef = useRef(null);
     const pointerRef = useRef(null);
     const albumGenre = clean(featuredRelease.genre);
-    const trackGenre = clean(artistFeaturedTrack?.genre) || albumGenre;
 
     useEffect(() => {
         const hero = heroRef.current;
@@ -140,12 +140,11 @@ export default function Home() {
                         </h2>
                         {releaseMeta(featuredRelease) && <p className="eyebrow mt-3">{releaseMeta(featuredRelease)}</p>}
                         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
-                            {albumGenre && <p className="eyebrow">Album: {albumGenre}</p>}
-                            {trackGenre && <p className="eyebrow">Track: {trackGenre}</p>}
+                            {albumGenre && <p className="eyebrow">Genre: {albumGenre}</p>}
                         </div>
                         {artistFeaturedTrack && (
                             <a
-                                href={artistFeaturedTrack.url}
+                                href="https://soundcloud.com/drazyxmusic/wake-up-4"
                                 target="_blank"
                                 rel="noreferrer"
                                 className="link-arrow text-sm inline-flex items-center mt-5"
@@ -164,27 +163,34 @@ export default function Home() {
                 </Reveal>
             </section>
 
-            {others.length > 0 && (
+            {catalogPreview.length > 0 && (
                 <section className="px-6 pb-24">
                     <Reveal as="div" className="max-w-6xl mx-auto">
-                        <SectionHeader number="02" label="more music" />
-                        <ul className="mt-6 border-t border-[var(--border-hair)] max-w-3xl">
-                            {others.map((release) => (
-                                <li key={release.id}>
-                                    <Link to={`/music/${release.id}`} className="row-link grid-cols-[56px_1fr_auto] sm:grid-cols-[64px_1fr_auto]">
-                                        <Artwork src={release.coverUrl} alt="" label="" className="w-14 sm:w-16" />
-                                        <span className="min-w-0">
-                                            <span className={`row-title block font-display text-lg transition-colors truncate ${hasTitle(release) ? 'text-[var(--color-text)]' : 'text-[var(--color-text-faint)]'}`}>
-                                                {releaseTitle(release)}
+                        <div className="flex items-end justify-between gap-6">
+                            <SectionHeader number="02" label="catalog / open doors" />
+                            <span className="terminal-label hidden sm:block">{catalogPreview.length + 1} records</span>
+                        </div>
+                        <ul className="mt-6 border-t border-[var(--border-hair)] max-w-4xl">
+                            {catalogPreview.map((release) => {
+                                const isLatest = release.id === latestRelease.id;
+                                return (
+                                    <li key={release.id}>
+                                        <Link to={`/music/${release.id}`} className="row-link grid-cols-[48px_minmax(0,1fr)_auto] sm:grid-cols-[64px_minmax(0,1.5fr)_1fr_auto]">
+                                            <Artwork src={release.coverUrl} alt="" label="" className="w-12 sm:w-16" />
+                                            <span className="min-w-0">
+                                                <span className={`row-title block font-display text-lg transition-colors truncate ${hasTitle(release) ? 'text-[var(--color-text)]' : 'text-[var(--color-text-faint)]'}`}>
+                                                    {releaseTitle(release)}
+                                                </span>
+                                                <span className="eyebrow">{releaseMeta(release)}{isLatest ? ' · latest' : ''}</span>
                                             </span>
-                                            {releaseMeta(release) && <span className="eyebrow">{releaseMeta(release)}</span>}
-                                        </span>
-                                        <span className="text-[var(--color-text-secondary)]" aria-hidden="true">→</span>
-                                    </Link>
-                                </li>
-                            ))}
+                                            <span className="hidden sm:block text-xs text-[var(--color-text-faint)] truncate">{clean(release.genre)}</span>
+                                            <span className="text-[var(--color-text-secondary)]" aria-hidden="true">→</span>
+                                        </Link>
+                                    </li>
+                                );
+                            })}
                         </ul>
-                        <Link to="/music" className="link-arrow text-sm inline-flex mt-6">The whole catalog <span aria-hidden="true">→</span></Link>
+                        <Link to="/music" className="link-arrow text-sm inline-flex mt-6">Open the full catalog <span aria-hidden="true">→</span></Link>
                     </Reveal>
                 </section>
             )}
@@ -209,9 +215,9 @@ export default function Home() {
                     </div>
                     <div className="artwork-glow min-w-0 lg:col-start-2 lg:row-start-2">
                         <div className="record-object h-full min-h-[20rem]">
-                            <Artwork
-                                src="https://f4.bcbits.com/img/0045261838_20.jpg"
-                                alt="Profile artwork for Drazyx"
+                            <img
+                                src={profilePhotoUrl}
+                                alt="Artist photo of Drazyx"
                                 className="w-full h-full"
                             />
                         </div>
@@ -267,6 +273,7 @@ export default function Home() {
                     </div>
                 </Reveal>
             </section>
+
 
             <section className="home-section border-t border-[var(--border-hair)] px-6 py-24">
                 <Reveal as="div" className="max-w-6xl mx-auto grid gap-10 lg:grid-cols-[0.85fr_1.7fr]">

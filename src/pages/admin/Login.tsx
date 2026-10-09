@@ -10,14 +10,14 @@ export const Login = () => {
     const [isLoggingIn, setIsLoggingIn] = useState(false);
 
     const navigate = useNavigate();
-    const { user, loading } = useAuth();
+    const { user, isAdmin, loading } = useAuth();
 
     // Redirect if already logged in
     useEffect(() => {
         if (user && !loading) {
-            navigate('/admin', { replace: true });
+            navigate(isAdmin ? '/admin' : '/', { replace: true });
         }
-    }, [user, loading, navigate]);
+    }, [user, isAdmin, loading, navigate]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
