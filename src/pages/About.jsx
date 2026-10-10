@@ -52,8 +52,8 @@ export default function About() {
                     <div className="about-intro__object relative aspect-square shrink-0 flex items-center justify-center overflow-hidden">
                         <div className="about-orbit" aria-hidden="true" />
                         <Artwork
-                            src={latestRelease.coverUrl}
-                            alt={`Artwork for ${releaseTitle(latestRelease)}`}
+                            src={`https://f4.bcbits.com/img/0045261838_20.jpg`}
+                            alt={`Profile photo of Drazyx`}
                             label=""
                             className="relative z-[1] object-contain w-0 h-0 min-w-full min-h-full max-w-full max-h-full"
                         />
