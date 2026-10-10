@@ -96,18 +96,27 @@ export type LicenseInput = {
 
 // Replaces the license set for one beat. Licenses removed in the editor are deleted.
 export async function saveLicenses(beatId: string, licenses: LicenseInput[]): Promise<DataResult<null>> {
-  const keep = licenses.map((l) => l.license_key);
   const rows = licenses.map((l) => ({ ...l, beat_id: beatId }));
   if (rows.length) {
     const { error } = await supabase.from('beat_licenses').upsert(rows, { onConflict: 'beat_id,license_key' });
     if (error) return { data: null, error: humanError(error, 'Could not save the prices.') };
   }
-  const { error: delError } = await supabase
+
+  const { data: existing, error: listError } = await supabase
     .from('beat_licenses')
-    .delete()
-    .eq('beat_id', beatId)
-    .not('license_key', 'in', `(${keep.map((k) => `"${k}"`).join(',') || '""'})`);
-  if (delError) return { data: null, error: humanError(delError, 'Could not remove a license.') };
+    .select('id, license_key')
+    .eq('beat_id', beatId);
+  if (listError) return { data: null, error: humanError(listError, 'Could not inspect the existing prices.') };
+
+  const keep = new Set(licenses.map((license) => license.license_key));
+  const removeIds = (existing ?? [])
+    .filter((license) => !keep.has(license.license_key))
+    .map((license) => license.id);
+  if (removeIds.length) {
+    const { error: delError } = await supabase.from('beat_licenses').delete().in('id', removeIds);
+    if (delError) return { data: null, error: humanError(delError, 'Could not remove a license.') };
+  }
+
   return { data: null, error: null };
 }
 

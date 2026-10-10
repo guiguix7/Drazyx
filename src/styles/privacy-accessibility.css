@@ -1,0 +1,99 @@
+/* Focused accessibility and privacy UI additions. Existing global styles remain intact. */
+:root {
+    /* WCAG AA contrast for small secondary labels on the site's dark surfaces. */
+    --color-text-faint: #938897;
+}
+
+.privacy-banner {
+    position: fixed;
+    z-index: 90;
+    inset: auto 1rem calc(env(safe-area-inset-bottom, 0px) + 1rem);
+    width: min(54rem, calc(100% - 2rem));
+    margin-inline: auto;
+    padding: 1.1rem;
+    background: rgba(17, 16, 26, 0.98);
+    color: var(--color-text);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-medium);
+    box-shadow: 0 18px 55px rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(16px);
+}
+
+.privacy-banner__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    align-items: center;
+}
+
+.privacy-banner__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-small);
+    color: var(--color-text);
+    background: transparent;
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+
+.privacy-banner__button--primary {
+    color: #080710;
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent-soft);
+    font-weight: 600;
+}
+
+.privacy-banner__button:hover {
+    border-color: var(--color-accent-soft);
+}
+
+.privacy-content {
+    display: grid;
+    gap: 2rem;
+}
+
+.privacy-content section {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-hair);
+}
+
+.privacy-content h2 {
+    margin-bottom: 0.75rem;
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 3vw, 1.55rem);
+    line-height: 1.25;
+}
+
+.privacy-content p,
+.privacy-content li {
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+}
+
+.privacy-content ul {
+    padding-left: 1.25rem;
+    list-style: disc;
+}
+
+@media (max-width: 480px) {
+    .privacy-banner {
+        inset-inline: 0.5rem;
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 0.5rem);
+        width: auto;
+        padding: 1rem;
+    }
+
+    .privacy-banner__actions {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .privacy-banner__button {
+        width: 100%;
+    }
+}

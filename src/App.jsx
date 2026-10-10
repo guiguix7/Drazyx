@@ -1,9 +1,9 @@
 import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Analytics } from "@vercel/analytics/react";
 import Navbar from "./components/Navbar.jsx";
 import Footer from "./components/Footer.jsx";
 import MiniPlayer from "./components/Miniplayer.jsx";
+import PrivacyConsent from "./components/Privacyconsent.jsx";
 import { AudioPlayerProvider } from "./components/Audioplayer.jsx";
 import Home from "./pages/Home.jsx";
 import { ProtectedRoute } from "./components/admin/ProtectedRoute";
@@ -22,6 +22,7 @@ const Theroom = lazy(() => import("./pages/Theroom.jsx"));
 const About = lazy(() => import("./pages/About.jsx"));
 const Contact = lazy(() => import("./pages/Contact.jsx"));
 const Support = lazy(() => import("./pages/Support.jsx"));
+const Privacy = lazy(() => import("./pages/Privacy.jsx"));
 const Notfound = lazy(() => import("./pages/Notfound.jsx"));
 
 function ScrollManager() {
@@ -55,6 +56,7 @@ export default function App() {
                             <Route path="/about" element={<About />} />
                             <Route path="/contact" element={<Contact />} />
                             <Route path="/support" element={<Support />} />
+                            <Route path="/privacy" element={<Privacy />} />
                             <Route path="*" element={<Notfound />} />
 
                             <Route path="/admin/login" element={<Login />} />
@@ -72,7 +74,7 @@ export default function App() {
                 {!isAdmin && <Footer />}
             </div>
             {!isAdmin && <MiniPlayer />}
-            <Analytics />
+            {!isAdmin && <PrivacyConsent />}
         </AudioPlayerProvider>
     );
 }

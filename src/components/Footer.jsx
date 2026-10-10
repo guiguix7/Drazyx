@@ -31,8 +31,18 @@ export default function Footer() {
                         <Link to="/the-room" className={linkClass}>The Room</Link>
                         <Link to="/about" className={linkClass}>About</Link>
                         <Link to="/beats" className={linkClass}>Beats</Link>
+                        <Link to="/production" className={linkClass}>Production</Link>
+                        <Link to="/licensing" className={linkClass}>Licensing</Link>
                         <Link to="/contact" className={linkClass}>Contact</Link>
                         <Link to="/support" className={linkClass}>Support</Link>
+                        <Link to="/privacy" className={linkClass}>Privacy</Link>
+                        <button
+                            type="button"
+                            className={linkClass}
+                            onClick={() => window.dispatchEvent(new Event("drazyx:open-privacy-preferences"))}
+                        >
+                            Privacy settings
+                        </button>
                         <a href={socialLinks.bandcamp} target="_blank" rel="noreferrer" className={linkClass}>Bandcamp ↗</a>
                         <a href={`mailto:${contactEmail}`} className={linkClass}>{contactEmail}</a>
                     </nav>

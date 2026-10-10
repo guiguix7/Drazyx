@@ -24,6 +24,11 @@ const PATHS = {
 export default function PlatformIcon({ platform, size = 17, className = '' }) {
     const brand = PATHS[platform];
     if (brand) {
+        // These path outlines are Font Awesome font-glyph data: authored with the
+        // baseline at the bottom and Y increasing upward (font coordinate space),
+        // not SVG's normal top-down Y axis. Rendered as-is they appear upside
+        // down, so flip them vertically to match the viewBox.
+        const viewBoxHeight = Number(brand.viewBox.split(' ')[3]);
         return (
             <svg
                 width={size}
@@ -34,7 +39,7 @@ export default function PlatformIcon({ platform, size = 17, className = '' }) {
                 className={`platform-icon platform-icon--${platform} ${className}`}
                 focusable="false"
             >
-                <path d={brand.d} />
+                <path d={brand.d} transform={`translate(0 ${viewBoxHeight}) scale(1 -1)`} />
             </svg>
         );
     }

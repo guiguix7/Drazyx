@@ -4,7 +4,7 @@
 
 Please do not open a public issue for security problems.
 
-Email **contact@drazyx.com** with the subject line `SECURITY` and include:
+Email **drazyxmusic@gmail.com** with the subject line `SECURITY` and include:
 
 - what you found and where (URL, file, or route);
 - steps to reproduce;

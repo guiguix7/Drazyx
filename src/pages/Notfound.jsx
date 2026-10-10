@@ -6,7 +6,12 @@ import RoomGlyph from '../components/Roomglyph.jsx';
 export default function NotFound() {
     return (
         <PageShell eyebrow="404 / wrong door" title="Nothing here." lede="There's no room at this address. Try another one." marker="cursor" width="narrow">
-            <SEO title="Page not found" path="/404" noindex />
+            <SEO
+                title="Page not found"
+                description="The requested Drazyx page could not be found."
+                path="/404"
+                noindex
+            />
             <div className="room-file pixel-corners max-w-xl">
                 <div className="room-file__bar"><span>system / 404</span><span>path not found</span></div>
                 <div className="room-file__body">

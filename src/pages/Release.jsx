@@ -12,7 +12,12 @@ import { clean, hasTitle, releaseMeta, releaseTitle, safeUrl } from '../lib/help
 function NotFoundRelease({ releaseId }) {
     return (
         <PageShell eyebrow="music / 404" title="Not found" lede="That release doesn't exist (or isn't published yet)." marker="cursor" width="narrow">
-            <SEO path={`/music/${releaseId}`} title="Release not found" noindex />
+            <SEO
+                path={`/music/${releaseId}`}
+                title="Release not found"
+                description="The requested Drazyx release could not be found."
+                noindex
+            />
             <Link to="/music" className="link-arrow inline-flex mt-2">Back to the music <span aria-hidden="true">→</span></Link>
         </PageShell>
     );

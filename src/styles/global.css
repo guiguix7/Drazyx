@@ -636,12 +636,16 @@ iframe {
     border-color: var(--border-hair);
 }
 
+.btn-primary.platform-button,
+.btn-primary.platform-button:hover {
+    color: #0a0310;
+}
+
 .platform-button .platform-icon {
     color: var(--platform);
 }
 
 .platform-button:hover {
-    color: var(--color-text);
     border-color: color-mix(in srgb, var(--platform), transparent 55%);
     box-shadow: 0 14px 34px -26px var(--platform);
 }
