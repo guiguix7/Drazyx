@@ -6,13 +6,14 @@ import App from "./App.jsx";
 import { AuthProvider } from "./contexts/AuthContext";
 import "./styles/global.css";
 import "./styles/privacy-accessibility.css";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <App />
+        <Analytics />
         <SpeedInsights />
       </AuthProvider>
     </BrowserRouter>
