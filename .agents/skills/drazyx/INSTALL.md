@@ -1,61 +1,67 @@
 # Install the Drazyx skill
 
-This folder follows the Agent Skills format. The skill is designed for agents that support `SKILL.md`, including OpenCode and Codex-compatible workflows.
+The distributable source of truth is `skills/drazyx/`. The project also keeps a compatible local copy at `.agents/skills/drazyx/` so OpenCode can discover it when this repository is opened as a project.
 
-## Install with the Skills CLI
+## Install from GitHub
 
-Install globally for OpenCode:
-
-```powershell
-npx skills add guiguix7/Drazyx --skill drazyx --agent opencode --global --yes
-```
-
-Install globally for Codex:
+Run this in PowerShell:
 
 ```powershell
-npx skills add guiguix7/Drazyx --skill drazyx --agent codex --global --yes
+npx skills add guiguix7/Drazyx
 ```
 
-To list the skills found in the repository before installing:
+The CLI will discover the skills in the repository and prompt you to select the `drazyx` skill, the target agent, and the installation scope. Select OpenCode and choose global if you want it available across projects, or project if you only want it in the current repository.
+
+To inspect available skills before installing:
 
 ```powershell
 npx skills add guiguix7/Drazyx --list
 ```
 
-To confirm installation:
+For current CLI options, use:
 
 ```powershell
-npx skills list --global
+npx skills add --help
 ```
 
-## Use the skill
+## OpenCode
 
-In OpenCode, invoke it explicitly with:
+OpenCode automatically discovers project skills under `.agents/skills/` and global skills under `~/.config/opencode/skills/` (as well as its documented compatibility paths).
+
+If you installed globally, restart OpenCode and invoke the skill explicitly with:
 
 ```text
 @drazyx
 ```
 
-Or describe a Drazyx task clearly; the skill's description is designed to let the agent discover it when relevant.
+The skill may also be discovered automatically for relevant tasks because its frontmatter includes a detailed description.
 
-## Freebuff and other compatible agents
+## Freebuff and other agents
 
-If Freebuff supports OpenCode's skill discovery or the Agent Skills convention, the CLI installation may work directly. If it does not appear, use the shared compatibility path:
+If Freebuff supports the Agent Skills convention, point it to or copy the complete folder `.agents/skills/drazyx/` into the skill directory it scans. Keep the `references/` folder; the main file deliberately loads those documents only when relevant.
 
-```text
-.agents/skills/drazyx/SKILL.md
-```
+If Freebuff uses a separate skill format or directory, follow its own documented adapter rather than assuming OpenCode paths are universal.
 
-Copy the entire `drazyx` folder—including `references/`—into the project's `.agents/skills/` directory, or into the global skills directory documented by that agent. Do not copy only `SKILL.md`, because the detailed workflows live in the reference files.
+## Update
 
-Restart the agent if it does not refresh skill discovery automatically.
-
-## Keep it current
-
-After changes are pushed to GitHub:
+To update skills installed through the Skills CLI:
 
 ```powershell
-npx skills update drazyx --global --yes
+npx skills update
 ```
 
-The skill gives creative and operational guidance. It does not install HyperFrames, FFmpeg, plugins, fonts, models, or API credentials. Install those tools separately only when the current project needs them.
+To refresh only this skill, if supported by the installed CLI version:
+
+```powershell
+npx skills update drazyx
+```
+
+## What's included
+
+- Artist identity and visual direction.
+- Professional music-video editing and HyperFrames workflow.
+- Music production, mix review, and audio QC.
+- Strategic marketing, short-form content, campaign measurement, and promotion.
+- Release preparation, distribution, and rights checks.
+
+The skill contains instructions and workflows. It does not install HyperFrames, FFmpeg, plugins, fonts, models, or credentials.
