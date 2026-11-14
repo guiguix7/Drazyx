@@ -67,3 +67,13 @@ built to hide or soften a gap instead of showing a placeholder.
 ## License
 
 Not yet defined. Until a license file is added, all rights are reserved by the author.
+
+## Drazyx agent skill
+
+This repository includes a reusable Agent Skill for professional music-video editing, HyperFrames, music production and audio QC, artist positioning, release planning, and strategic music promotion.
+
+- Skill source: [skills/drazyx/](skills/drazyx/)
+- Installation: [skills/drazyx/INSTALL.md](skills/drazyx/INSTALL.md)
+- OpenCode project-local copy: [.agents/skills/drazyx/](.agents/skills/drazyx/)
+
+Install with `npx skills add guiguix7/Drazyx`, then select `drazyx` and your target agent in the CLI.
